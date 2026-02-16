@@ -48,15 +48,15 @@ Clean. Deterministic. Automation-ready 🙂
 
 ```json
 {
-"request_id": "optional-unique-id",         // OPTIONAL
-"router_ip": "192.168.1.1",                  // REQUIRED
-"username": "admin",                        // REQUIRED if ssh_login_method == "2"
-"password": "password1",                     // REQUIRED if ssh_login_method == "2"
-"ssh_port": 22,                             // OPTIONAL (default: 22)
-"disable_password_encryption": false,        // OPTIONAL (default: encryption enabled)
-"commands": [                               // REQUIRED (should not be empty)
+"request_id": "optional-unique-id",           // OPTIONAL
+"router_ip": "192.168.1.1",                   // REQUIRED
+"username": "admin",                          // REQUIRED if ssh_login_method == "2"
+"password": "password1",                      // REQUIRED if ssh_login_method == "2"
+"ssh_port": 22,                               // OPTIONAL (default: 22)
+"disable_password_encryption": false,         // OPTIONAL (default: encryption enabled)
+"commands": [                                 // REQUIRED (should not be empty)
 {
-"command": "terminal length 0",          // REQUIRED
+"command": "terminal length 0",      // REQUIRED
 "expected_end": "Router1>",          // OPTIONAL
 "command_timeout": 10                // OPTIONAL per-command timeout (overrides top-level)
 },
