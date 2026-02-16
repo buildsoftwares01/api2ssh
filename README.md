@@ -48,42 +48,39 @@ Clean. Deterministic. Automation-ready 🙂
 
 ```json
 {
+"request_id": "optional-unique-id",         // OPTIONAL
 "router_ip": "192.168.1.1",                  // REQUIRED
+"username": "admin",                        // REQUIRED if ssh_login_method == "2"
+"password": "password1",                     // REQUIRED if ssh_login_method == "2"
+"ssh_port": 22,                             // OPTIONAL (default: 22)
+"disable_password_encryption": false,        // OPTIONAL (default: encryption enabled)
 "commands": [                               // REQUIRED (should not be empty)
 {
-"command": "show ip route",          // REQUIRED
+"command": "terminal length 0",          // REQUIRED
 "expected_end": "Router1>",          // OPTIONAL
-"command_timeout": 60                // OPTIONAL per-command timeout (overrides top-level)
+"command_timeout": 10                // OPTIONAL per-command timeout (overrides top-level)
 },
 {
 "command": "show interfaces",
 "expected_end": "Router1>",          // OPTIONAL
 "command_timeout": 30                // OPTIONAL per-command timeout
 }
-],
-
-"username": "admin",                        // REQUIRED if ssh_login_method == "2"
-"password": "password",                     // REQUIRED if ssh_login_method == "2"
-
-"ssh_port": 22,                             // OPTIONAL (default: 22)
-"request_id": "optional-unique-id",         // OPTIONAL
-"disable_password_encryption": false        // OPTIONAL (default: encryption enabled)
+]
 }
 ```
 ## 🧠 Parameters
 
+- **request_id** → Optional tracking identifier
 - **router_ip** → Target device IP  
 - **ssh_port** → SSH port (default 22)  
 - **username / password** →  
   - Either defined globally at startup  
-  - Or passed dynamically in each request  
+  - Or passed dynamically in each request
+- **disable_password_encryption** → Disable password encryption (use for plaintext password in API)
 - **commands** → Ordered list of CLI commands with below parameters:
   - command** → Command to be executed  
   - expected_end** → Prompt pattern to detect command completion  
   - commands_timeout** → Timeout per command (seconds)  
-- **request_id** → Optional tracking identifier
-- **disable_password_encryption** → Disable password encryption (use for plaintext password in API)
-
 
 ## 📤 Response Format
 ```json
