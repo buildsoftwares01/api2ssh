@@ -2,7 +2,7 @@
 
 API2SSH is a lightweight REST service that converts structured HTTP requests into real, interactive SSH sessions with network devices.
 
-This **GitHub version is a demo build**, limited to **1 device orchestration**, so you can test the workflow and integration model before moving to production.
+This **GitHub version is a demo build**, limited to **2 devices orchestration**, so you can test the workflow and integration model before moving to production.
 
 👉 The **full multi-device production version** is available on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
 
