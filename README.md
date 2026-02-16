@@ -2,25 +2,22 @@
 
 API2SSH is a CLI-based server application that converts structured HTTP requests into real interactive SSH sessions with network devices and servers.
 
-Most automation platforms support **only non-interactive SSH**.  
-Most on-device operations require prompt awareness, timing control and interactive session handling.  
-
+Most automation platforms support **only non-interactive SSH** but most on-device operations require prompt awareness, timing control and interactive session handling.  
 API2SSH bridges that gap 🙂  
 
 **Turn structured API calls into deterministic SSH automation.**  
 
 This **GitHub version is a demo build**, limited to **2 devices orchestration**, so you can test the workflow and integration model before moving to production.
 
-👉 The **full multi-device production version** is available on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
+👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device production version**.  
+Enterprise sales, consulting and custom solutions for API2SSH are also available through a university-affiliated program.. Reach out at **buildsoftwares01@gmail.com** to get connected.
 
 ---
 
 ## 🔥 What Is Included
 
-- ✅ Interactive SSH session handling 🙂  
 - ✅ Prompt-aware command completion detection  
 - ✅ Sequential command execution  
-- ✅ Structured JSON responses  
 - ✅ Per-command timeout protection  
 - ✅ REST-to-CLI bridge for automation platforms
 - ✅ Fernet-based Security
@@ -42,9 +39,6 @@ The service will:
 5. Return structured JSON output  
 
 Clean. Deterministic. Automation-ready 🙂
-
-A screenshot of the CLI app running, waiting for API calls:
-<img width="687" height="555" alt="Screenshot 2026-02-16 at 21 27 53" src="https://github.com/user-attachments/assets/8f3e693c-fd37-4a2b-b67f-63ced6a5c2e9" />
 
 ---
 
@@ -105,13 +99,29 @@ A screenshot of the CLI app running, waiting for API calls:
 ```
 Each command returns structured output ready for automation workflows 🙂
 
+
+## 🔌 Gallery
+
+CLI-based server application, waiting for API calls:
+
+<img width="687" height="555" alt="Screenshot 2026-02-16 at 21 27 53" src="https://github.com/user-attachments/assets/8f3e693c-fd37-4a2b-b67f-63ced6a5c2e9" />
+
+API2SSH-based n8n Workflow to run multiline script:
+
+<img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
+
+API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
+
+<img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
+
 ## 🔐 Password Encryption & Security
 
 API2SSH supports optional Fernet-based password encryption.
 
 ---
 
-### 🔑 How It Works
+
+### 🔑 How Are Your Passwords Secured
 
 - When encryption is enabled at startup, passwords are decrypted using a **Fernet key** before initiating the SSH session.
 - Decryption happens **in memory only**.
@@ -144,16 +154,6 @@ API2SSH supports optional Fernet-based password encryption.
 - Rotate credentials regularly
 
 ---
-## ⚠️ Demo Limitations
-
-This GitHub edition has all the commercial version's features and i onlys **limited to testing and evaluation** on 2 devices:
-
-👉 Get the commercial version on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh) if you plan to:
-- Run parallel automation across routers  
-- Integrate into orchestration platforms  
-- Deploy in production environments  
-
----
 
 ## 🎯 Built For
 
@@ -163,4 +163,3 @@ This GitHub edition has all the commercial version's features and i onlys **limi
 - Engineers modernizing legacy CLI environments  
 
 ---
-
