@@ -98,15 +98,15 @@ Each command returns structured output ready for automation workflows 🙂
 
 ## 🔌 Gallery
 
-CLI-based server application, waiting for API calls:
+# CLI-based server application, waiting for API calls:
 
 <img width="687" height="555" alt="Screenshot 2026-02-16 at 21 27 53" src="https://github.com/user-attachments/assets/8f3e693c-fd37-4a2b-b67f-63ced6a5c2e9" />
 
-API2SSH-based n8n Workflow to run multiline script:
+# API2SSH-based n8n Workflow to run multiline script:
 
 <img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
 
-API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
+# API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
 
 <img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
 
