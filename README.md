@@ -102,7 +102,7 @@ Each command returns structured output ready for automation workflows 🙂
 
 <img width="687" height="555" alt="Screenshot 2026-02-16 at 21 27 53" src="https://github.com/user-attachments/assets/8f3e693c-fd37-4a2b-b67f-63ced6a5c2e9" />
 
-### API2SSH-based n8n Workflow to run multiline script:
+### API2SSH-based n8n Workflow to run multiline script (uploaded to GitHub repository):
 
 <img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
 
