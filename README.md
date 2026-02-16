@@ -1,16 +1,15 @@
 # 🚀 API2SSH
 
-API2SSH is a CLI-based server application that converts structured HTTP requests into real interactive SSH sessions with network devices and servers.
+API2SSH is a CLI-based server that turns HTTP requests into real interactive SSH sessions for network devices and servers.  
 
-Most automation platforms support **only non-interactive SSH** but most on-device operations require prompt awareness, timing control and interactive session handling.  
-API2SSH bridges that gap 🙂  
+Most automation platforms handle only non-interactive SSH, but many operations require prompt awareness, timing control, and interactive session handling. API2SSH bridges that gap.  
 
-**Turn structured API calls into deterministic SSH automation.**  
+**Turn API calls into deterministic SSH automation.**  
 
-This **GitHub version is a demo build**, limited to **2 devices orchestration**, so you can test the workflow and integration model before moving to production.
+This **GitHub demo** is limited to **2 devices** for testing and evaluation.  
 
 👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device production version**.  
-👉 Enterprise sales, consulting and custom solutions for API2SSH are also available through a university-affiliated program.. Reach out at **buildsoftwares01@gmail.com** to get connected.
+👉 Enterprise sales, consulting, and custom solutions are also available via a university-affiliated program. Reach out at **buildsoftwares01@gmail.com**.
 
 ---
 
