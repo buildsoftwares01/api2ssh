@@ -10,7 +10,7 @@ API2SSH bridges that gap 🙂
 This **GitHub version is a demo build**, limited to **2 devices orchestration**, so you can test the workflow and integration model before moving to production.
 
 👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device production version**.  
-Enterprise sales, consulting and custom solutions for API2SSH are also available through a university-affiliated program.. Reach out at **buildsoftwares01@gmail.com** to get connected.
+👉 Enterprise sales, consulting and custom solutions for API2SSH are also available through a university-affiliated program.. Reach out at **buildsoftwares01@gmail.com** to get connected.
 
 ---
 
