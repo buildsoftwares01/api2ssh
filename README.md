@@ -6,9 +6,9 @@ API2SSH is a REST-to-SSH bridge server that turns HTTP requests into real, inter
 
 Most automation platforms handle only non-interactive SSH, but many operations require **prompt awareness**, **timing control**, and **interactive session handling**. API2SSH solves this problem.
 
-> **Demo Version**: Limited to 3 devices for small production networks, testing and evaluation.  
+> **Community Edition**: Limited to 3 devices for small production networks, testing and evaluation.  
 
-👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device production version**.  
+👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device Enterprise version**.  
 👉 Enterprise sales, consulting, and custom solutions are also available via a university-affiliated program. Reach out at **buildsoftwares01@gmail.com**.
 
 ---
@@ -271,7 +271,7 @@ The server will now decrypt passwords in-memory before connecting to devices.
 
 ## 📞 Support
 
-**Demo Version**: 3 devices max  
-**Production Version**: Unlimited devices + enterprise features
+**Community Edition**: 3 devices max  
+**Enterprise Version**: Any number of devices
 
 Contact: **buildsoftwares01@gmail.com**
