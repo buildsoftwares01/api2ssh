@@ -23,7 +23,7 @@ Most automation platforms handle only non-interactive SSH, but many operations r
 
 ## 🏗️ Architecture
 
-<img width="792" height="367" alt="Screenshot 2026-02-17 at 20 57 40" src="https://github.com/user-attachments/assets/711fabd0-6710-455d-a940-47c3b32614d2" />
+<img width="604" height="359" alt="Screenshot 2026-02-17 at 20 58 44" src="https://github.com/user-attachments/assets/7dfcd6d2-db8d-4626-8457-d22f929ceca8" />
 
 
 **Flow:**
