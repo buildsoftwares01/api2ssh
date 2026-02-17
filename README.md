@@ -1,8 +1,8 @@
 # 🚀 API2SSH
 
-**Turn API calls into deterministic SSH automation.**
+**Turn API calls into deterministic SSH automation for platforms like n8n, Zapier, and Make.**
 
-API2SSH is a REST-to-SSH bridge server that turns HTTP requests into real, interactive SSH sessions for network devices and servers.  
+API2SSH is a REST-to-SSH bridge server that turns HTTP requests into real, interactive SSH sessions for network devices and servers. Connect automation platforms directly to CLI-based devices without dealing with complex SSH session management.  
 
 Most automation platforms handle only non-interactive SSH, but many operations require **prompt awareness**, **timing control**, and **interactive session handling**. API2SSH solves this problem.
 
@@ -193,7 +193,7 @@ API2SSH supports optional Fernet encryption for passwords:
 
 Run the key generator executable:
 ```bash
-./CipherGenKey
+CipherGenKey.exe
 ```
 
 Output:
@@ -202,7 +202,7 @@ Your New Fernet Encryption Key :
 <your-long-key-string>
 ```
 
-**Save this key securely** — you'll need it every time you start API2SSH.
+**Save this key securely** — you'll need it every time you start API2SSH. Do not save on same server where API2SSH will run.
 
 ---
 
@@ -210,7 +210,7 @@ Your New Fernet Encryption Key :
 
 Run the cipher encrypter executable:
 ```bash
-./CipherEncrypter
+CipherEncrypter.exe
 ```
 
 You'll be prompted for:
@@ -222,7 +222,7 @@ Output:
 Encrypted: b'gAAAAABl...<encrypted-password>...'
 ```
 
-**Copy the entire encrypted string** (including the `b'...'` wrapper).
+**Copy the entire encrypted string** (excluding the `b'...'` wrapper).
 
 ---
 
@@ -230,7 +230,9 @@ Encrypted: b'gAAAAABl...<encrypted-password>...'
 
 Run the main API2SSH server:
 ```bash
-./api2sshdemo
+API2SSH Demo vx- Windows.exe
+or
+API2SSH Demo vx- MACOS-arm64
 ```
 
 During startup:
