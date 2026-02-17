@@ -24,7 +24,6 @@ You may NOT:
 For full multi-device production use, commercial licensing, or enterprise deployment, please contact the author:
 
 Email: buildsoftwares01@gmail.com  
-Ko-fi / Gumroad: [link to your purchase page]
 
 4. No Warranty
 --------------
