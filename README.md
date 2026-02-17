@@ -6,7 +6,7 @@ Most automation platforms handle only non-interactive SSH, but many operations r
 
 **Turn API calls into deterministic SSH automation.**  
 
-This **GitHub demo** is limited to **2 devices** for testing and evaluation.  
+This **GitHub demo** is limited to **3 devices** for small production networks, testing and evaluation.  
 
 👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device production version**.  
 👉 Enterprise sales, consulting, and custom solutions are also available via a university-affiliated program. Reach out at **buildsoftwares01@gmail.com**.
