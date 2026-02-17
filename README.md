@@ -54,7 +54,7 @@ Most automation platforms handle only non-interactive SSH, but many operations r
 
 ## 🚀 Quick Start
 
-1. **Run the executable** and wait a few seconds for startup
+1. ** Download and Run the executable** (from our Releases Section https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
 2. **Configure SSH credentials**:
    - Choose between common credentials (for all devices) or per-request credentials (different passwords per API call)
    - Set the initialization parameters in the CLI-based server application:
