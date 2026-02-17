@@ -23,6 +23,24 @@ This **GitHub demo** is limited to **3 devices** for small production networks, 
 
 ---
 
+## 🔌 How To Set Up
+- **Step 1** → Download the latest version of API2SSH Demo for your OS from: https://github.com/buildsoftwares01/api2ssh/releases
+- **Step 2** → Run the program and wait a few seconds for it to boot up.
+- **Step 3** → Set the initialization parameters in the CLI-based server application. Refer to below screenshot:
+
+<img width="618" height="451" alt="Screenshot 2026-02-17 at 17 59 41" src="https://github.com/user-attachments/assets/ebb03f2f-e110-4fff-960d-6154d9ba6514" />
+
+
+- **Step 4** → Run your API POST Request to run commands to your device. Here I am using Postman to send an API Request:
+
+<img width="602" height="550" alt="Screenshot 2026-02-17 at 18 04 24" src="https://github.com/user-attachments/assets/a3739c11-cbb7-4969-b7c9-6a4cc05fb6e0" />
+
+- **Step 5** → The API Request will start and SSH Shell session on the input IP address and execute the series of commands input. You will obtain an API response with the commands' output:
+
+<img width="605" height="410" alt="Screenshot 2026-02-17 at 18 06 22" src="https://github.com/user-attachments/assets/ea837c0a-d612-411c-ab0c-a9bf9fb89b72" />
+
+
+
 ## 🔌 How It Works
 
 Send a POST request to:
@@ -94,23 +112,6 @@ Clean. Deterministic. Automation-ready 🙂
 }
 ```
 Each command returns structured output ready for automation workflows 🙂
-
-## 🔌 How To Set Up
-- **Step 1** → Download the latest version of API2SSH Demo for your OS from: https://github.com/buildsoftwares01/api2ssh/releases
-- **Step 2** → Run the program and wait a few seconds for it to boot up.
-- **Step 3** → Set the initialization parameters in the CLI-based server application. Refer to below screenshot:
-
-<img width="618" height="451" alt="Screenshot 2026-02-17 at 17 59 41" src="https://github.com/user-attachments/assets/ebb03f2f-e110-4fff-960d-6154d9ba6514" />
-
-
-- **Step 4** → Run your API POST Request to run commands to your device. Here I am using Postman to send an API Request:
-
-<img width="602" height="550" alt="Screenshot 2026-02-17 at 18 04 24" src="https://github.com/user-attachments/assets/a3739c11-cbb7-4969-b7c9-6a4cc05fb6e0" />
-
-- **Step 5** → The API Request will start and SSH Shell session on the input IP address and execute the series of commands input. You will obtain an API response with the commands' output:
-
-<img width="605" height="410" alt="Screenshot 2026-02-17 at 18 06 22" src="https://github.com/user-attachments/assets/ea837c0a-d612-411c-ab0c-a9bf9fb89b72" />
-
 
 ## 🔌 Gallery
 
