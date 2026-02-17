@@ -1,92 +1,88 @@
-🚀 API2SSH
+# 🚀 API2SSH
 
-API2SSH is a lightweight REST service that converts structured HTTP requests into real, interactive SSH sessions with network devices.
+API2SSH is a CLI-based server that turns HTTP requests into real interactive SSH sessions for network devices and servers.  
 
-This GitHub version is a demo build, limited to 1 device orchestration, so you can test the workflow and integration model before moving to production.
+Most automation platforms handle only non-interactive SSH, but many operations require prompt awareness, timing control, and interactive session handling. API2SSH bridges that gap.  
 
-👉 The full multi-device production version is available on Gumroad.
+**Turn API calls into deterministic SSH automation.**  
 
-🔥 What This Demo Proves
+This **GitHub demo** is limited to **2 devices** for testing and evaluation.  
 
-Even in the limited edition, you get:
+👉 Contact **buildsoftwares01@gmail.com** for the **full multi-device production version**.  
+👉 Enterprise sales, consulting, and custom solutions are also available via a university-affiliated program. Reach out at **buildsoftwares01@gmail.com**.
 
-Interactive SSH session handling 🙂
+---
 
-Prompt-aware command completion detection
+## 🔥 What Is Included
 
-Sequential command execution
+- ✅ Prompt-aware command completion detection  
+- ✅ Sequential command execution  
+- ✅ Per-command timeout protection  
+- ✅ REST-to-CLI bridge for automation platforms
+- ✅ Fernet-based Security
 
-Structured JSON responses
+---
 
-Per-command timeout protection
-
-REST-to-CLI bridge for automation platforms
-
-This is not simple SSH execution — it handles real interactive sessions (prompts, sudo requests, CLI state changes).
-
-🔌 How It Works
+## 🔌 How It Works
 
 Send a POST request to:
-
+```json
 /api/api2ssh
-
+```
 
 The service will:
-
-Validate the request
-
-Open an interactive SSH shell
-
-Execute commands sequentially
-
-Detect command completion using prompt matching
-
-Return structured JSON output
+1. Validate the request  
+2. Open an interactive SSH shell  
+3. Execute commands sequentially  
+4. Detect command completion using prompt matching  
+5. Return structured JSON output  
 
 Clean. Deterministic. Automation-ready 🙂
 
-📦 API Request Structure
-Example JSON
+---
+
+## 📦 API Request Structure
+
+### Example JSON
+
+```json
 {
-  "router_ip": "192.168.1.1",
-  "ssh_port": 22,
-  "username": "admin",
-  "password": "password",
-  "commands": [
-    {
-      "command": "show ip route",
-      "expected_end": "Router1>"
-    },
-    {
-      "command": "show interfaces",
-      "expected_end": "Router1>"
-    }
-  ],
-  "commands_timeout": 120,
-  "request_id": "optional-tracking-id"
+"request_id": "optional-unique-id",           // OPTIONAL
+"router_ip": "192.168.1.1",                   // REQUIRED
+"username": "admin",                          // REQUIRED if ssh_login_method == "2"
+"password": "password1",                      // REQUIRED if ssh_login_method == "2"
+"ssh_port": 22,                               // OPTIONAL (default: 22)
+"disable_password_encryption": false,         // OPTIONAL (default: encryption enabled)
+"commands": [                                 // REQUIRED (should not be empty)
+{
+"command": "terminal length 0",      // REQUIRED
+"expected_end": "Router1>",          // OPTIONAL
+"command_timeout": 10                // OPTIONAL per-command timeout (overrides top-level)
+},
+{
+"command": "show interfaces",
+"expected_end": "Router1>",          // OPTIONAL
+"command_timeout": 30                // OPTIONAL per-command timeout
 }
+]
+}
+```
+## 🧠 Parameters
 
-🧠 Parameters
+- **request_id** → Optional tracking identifier
+- **router_ip** → Target device IP  
+- **ssh_port** → SSH port (default 22)  
+- **username / password** →  
+  - Either defined globally at startup  
+  - Or passed dynamically in each request
+- **disable_password_encryption** → Disable password encryption (use for plaintext password in API)
+- **commands** → Ordered list of CLI commands with below parameters:
+  - command** → Command to be executed  
+  - expected_end** → Prompt pattern to detect command completion  
+  - commands_timeout** → Timeout per command (seconds)  
 
-router_ip → Target device IP
-
-ssh_port → SSH port (default 22)
-
-username / password →
-
-Either defined globally at startup
-
-Or passed dynamically in each request
-
-commands → Ordered list of CLI commands
-
-expected_end → Prompt pattern to detect command completion
-
-commands_timeout → Timeout per command (seconds)
-
-request_id → Optional tracking identifier
-
-📤 Response Format
+## 📤 Response Format
+```json
 {
   "results": [
     {
@@ -96,62 +92,70 @@ request_id → Optional tracking identifier
   ],
   "request_id": "optional-tracking-id"
 }
-
-
+```
 Each command returns structured output ready for automation workflows 🙂
 
-⚠️ Demo Limitations
 
-This GitHub edition is restricted to:
+## 🔌 Gallery
 
-✅ 1 allowed device
+### CLI-based server application, waiting for API calls:
 
-❌ No multi-device orchestration
+<img width="687" height="555" alt="Screenshot 2026-02-16 at 21 27 53" src="https://github.com/user-attachments/assets/8f3e693c-fd37-4a2b-b67f-63ced6a5c2e9" />
 
-❌ No production license management
+### API2SSH-based n8n Workflow to run multiline script (uploaded to GitHub repository):
 
-It is intended for testing and evaluation only.
+<img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
 
-💼 Full Version (Gumroad)
+### API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
 
-The production edition includes:
+<img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
 
-Multi-device orchestration
+## 🔐 Password Encryption & Security
 
-Scalable device limits
+API2SSH supports optional Fernet-based password encryption.
 
-License control system
+---
 
-Production-ready deployment model
 
-Designed for MSPs and enterprise automation
+### 🔑 How Are Your Passwords Secured
 
-If you plan to:
+- When encryption is enabled at startup, passwords are decrypted using a **Fernet key** before initiating the SSH session.
+- Decryption happens **in memory only**.
+- Passwords are never logged or stored on disk.
 
-Run parallel automation across routers
+---
 
-Integrate into orchestration platforms
+### ⚙️ Modes
 
-Deploy in production environments
+#### Encrypted Mode (Recommended)
 
-👉 Get the full version on Gumroad.
+- Provide encrypted password values
+- Provide Fernet key at application startup
+- `disable_password_encryption` must be `false` (default)
 
-🎯 Built For
+#### Plaintext Mode
 
-Network automation workflows
+- Set `"disable_password_encryption": true` in the API request
+- Password will be used as-is
+- Recommended only for trusted internal environments
 
-REST-based orchestration platforms
+---
 
-MSP device fleets
+### 🛡 Security Recommendations
 
-Engineers modernizing legacy CLI environments
+- Run API2SSH behind a firewall or reverse proxy
+- Use HTTPS (TLS) when exposing the API externally
+- Avoid plaintext mode in production
+- Protect your Fernet encryption key securely
+- Rotate credentials regularly
 
-💡 Why API2SSH?
+---
 
-Most automation platforms support only non-interactive SSH.
-Real devices require prompt awareness, timing control, and interactive session handling.
+## 🎯 Built For
 
-API2SSH bridges that gap predictably 🙂
+- Network automation workflows  
+- REST-based orchestration platforms  
+- MSP device fleets  
+- Engineers modernizing legacy CLI environments  
 
-Turn structured API calls into deterministic SSH automation.
-Test it here. Scale it with the full version.
+---
