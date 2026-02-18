@@ -255,3 +255,17 @@ The server will now decrypt passwords in-memory before connecting to devices.
 - **Orchestration Platforms**: n8n, Zapier, Make integration
 - **MSP Operations**: Manage multiple customer devices
 - **Legacy CLI Modernization**: REST API for CLI-only devices
+
+
+## 🔌 n8n Workflow Templates
+
+One of the main objective of this tool to to enable interactive SSH Shell command execution on n8n. 
+Sample n8n workflows:
+
+### API2SSH-based n8n Workflow to run multiline script (uploaded to GitHub repository):
+
+<img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
+
+### API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
+
+<img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
