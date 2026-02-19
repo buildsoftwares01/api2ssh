@@ -148,9 +148,9 @@ Each command in the `commands` array has:
 
 ## 🔐 Security
 
-### SSH Key-Based Authentication
+### Method 1- SSH Key-Based Authentication
 
-API2SSH supports SSH key authentication. Configure key-based access between the machine running API2SSH and the target devices, then set `ssh_login_method` to `key-based` in your API request.
+API2SSH supports secure SSH key-based authentication. Configure key-based access between the machine running API2SSH and the target devices, then set `ssh_login_method` to `key-based` in your API request.
 
 By default, the system key path is used. If you need to specify a different private key, provide `custom_ssh_key_path` with the full path to the key file.
 
@@ -158,7 +158,7 @@ Ensure the corresponding public key is present in the remote device’s `authori
 
 ---
 
-### Fernet-Based Password Encryption
+### Method 2-Fernet-Based Password Encryption
 
 We strongly recommend using key-based authentication but also provide an optional Fernet encryption for password-based authentication:
 
