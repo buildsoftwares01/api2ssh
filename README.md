@@ -4,7 +4,7 @@
 
 API2SSH is a REST-to-SSH bridge server that turns HTTP requests into real, interactive SSH sessions for network devices and servers. Connect automation platforms directly to CLI-based devices without dealing with complex SSH session management.  
 
-Most automation platforms handle only non-interactive SSH, but many operations require **prompt awareness**, **timing control**, and **interactive session handling**. API2SSH solves this problem.
+Most automation platforms handle only non-interactive SSH, but most network operations require **prompt awareness**, **timing control**, and **interactive session handling**. API2SSH solves this problem.
 
 > **Community Edition**: Limited to 3 devices for small production networks, testing and evaluation.  
 
@@ -74,22 +74,46 @@ The service will:
 ---
 
 ### API Request
+#### Option 1: Using key-based SSH Authentication:
 
 ```json
 {
   "request_id": "optional-unique-id",        // OPTIONAL
   "router_ip": "192.168.1.1",                // REQUIRED
-  "ssh_port": 22,                              // OPTIONAL (default: 22)
+  "ssh_port": 22,                            // REQUIRED (default: 22)
   "username": "admin",                       // REQUIRED
-  "ssh_login_method": "password-based",      // OPTIONAL: "password-based" or "key-based"
-  "password": "password1",                   // REQUIRED for password-based auth
-  "password_encryption": "true",             // OPTIONAL: "true" or "false" (applies to password-based auth)
+  "ssh_login_method": "key-based",           // Required: "password-based" or "key-based"
   "custom_ssh_key_path": "/path/to/key",     // OPTIONAL: private key file (for key-based auth)
-  "commands": [                                 // REQUIRED (should not be empty)
+  "commands": [                              // REQUIRED (should not be empty)
     {
       "command": "terminal length 0",        // REQUIRED
       "expected_end": "Router1>",            // OPTIONAL: prompt indicating completion
-      "command_timeout": 10                   // OPTIONAL per-command timeout (overrides top-level)
+      "command_timeout": 10                  // OPTIONAL per-command timeout (overrides top-level)
+    },
+    {
+      "command": "show interfaces",
+      "expected_end": "Router1>",
+      "command_timeout": 30
+    }
+  ]
+}
+```
+
+#### Option 2: Using password-based SSH Authentication:
+```json
+{
+  "request_id": "optional-unique-id",        // OPTIONAL
+  "router_ip": "192.168.1.1",                // REQUIRED
+  "ssh_port": 22,                            // OPTIONAL (default: 22)
+  "username": "admin",                       // REQUIRED
+  "ssh_login_method": "password-based",      // REQUIRED: "password-based" or "key-based"
+  "password": "password1",                   // REQUIRED for password-based auth
+  "password_encryption": "true",             // OPTIONAL: "true" or "false" (applies to password-based auth)
+  "commands": [                              // REQUIRED (should not be empty)
+    {
+      "command": "terminal length 0",        // REQUIRED
+      "expected_end": "Router1>",            // OPTIONAL: prompt indicating completion
+      "command_timeout": 10                  // OPTIONAL per-command timeout (overrides top-level)
     },
     {
       "command": "show interfaces",
