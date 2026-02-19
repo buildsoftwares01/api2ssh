@@ -38,24 +38,22 @@ Most automation platforms handle only non-interactive SSH, but many operations r
 ## 🚀 Quick Start
 
 1. **Download and Run the executable** from the [Releases section](https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
-2. **Configure SSH credentials**:
-   - Choose between common credentials (for all devices) or per-request credentials (different passwords per API call)
-   - Set the initialization parameters in the CLI-based server application:
+2. **Configure a port on which API2SSH can run** and enter your Fernet encryption key (optional, more details in the Security section):
 
 <div align="center">
-<img width="618" height="451" alt="Screenshot 2026-02-17 at 17 59 41" src="https://github.com/user-attachments/assets/ebb03f2f-e110-4fff-960d-6154d9ba6514" />
+<img width="572" height="395" alt="Screenshot 2026-02-19 at 12 02 37" src="https://github.com/user-attachments/assets/4cca87b1-cea0-4f93-8993-3321932f414c" />
 </div>
 
-3. **Send API requests** to `http://localhost:PORT/api/api2ssh`. I am using Postman here:
+3. **Send API requests** to `http://localhost:PORT/api/api2ssh`. I am using Postman for demonstration:
 
 <div align="center">
-<img width="602" height="550" alt="Screenshot 2026-02-17 at 18 04 24" src="https://github.com/user-attachments/assets/a3739c11-cbb7-4969-b7c9-6a4cc05fb6e0" />
+<img width="541" height="511" alt="Screenshot 2026-02-19 at 12 09 12" src="https://github.com/user-attachments/assets/4c559691-6496-4131-92e6-86f111e494ec" />
 </div>
 
-4. **The API Request will start and SSH Shell session** on the input IP address and execute the series of commands input. You will obtain an API response with the commands' output:
+4. **The API Request will start an SSH Shell session** on the specified router IP address and execute the series of commands given. You will obtain an API response with each command's output:
 
 <div align="center">
-<img width="605" height="410" alt="Screenshot 2026-02-17 at 18 06 22" src="https://github.com/user-attachments/assets/ea837c0a-d612-411c-ab0c-a9bf9fb89b72" />
+<img width="533" height="477" alt="Screenshot 2026-02-19 at 12 10 35" src="https://github.com/user-attachments/assets/faf61287-a300-4135-b5e8-882d98ffc003" />
 </div>
 
 ---
@@ -75,43 +73,47 @@ The service will:
 
 ---
 
-## 📋 API Request
+### API Request
 
 ```json
 {
-"request_id": "optional-unique-id",           // OPTIONAL
-"router_ip": "192.168.1.1",                   // REQUIRED
-"username": "admin",                          // REQUIRED if ssh_login_method == "2"
-"password": "password1",                      // REQUIRED if ssh_login_method == "2"
-"ssh_port": 22,                               // OPTIONAL (default: 22)
-"disable_password_encryption": false,         // OPTIONAL (default: encryption enabled)
-"commands": [                                 // REQUIRED (should not be empty)
-{
-"command": "terminal length 0",      // REQUIRED
-"expected_end": "Router1>",          // OPTIONAL
-"command_timeout": 10                // OPTIONAL per-command timeout (overrides top-level)
-},
-{
-"command": "show interfaces",
-"expected_end": "Router1>",          // OPTIONAL
-"command_timeout": 30                // OPTIONAL per-command timeout
-}
-]
+  "request_id": "optional-unique-id",        // OPTIONAL
+  "router_ip": "192.168.1.1",                // REQUIRED
+  "ssh_port": 22,                              // OPTIONAL (default: 22)
+  "username": "admin",                       // REQUIRED
+  "ssh_login_method": "password-based",      // OPTIONAL: "password-based" or "key-based"
+  "password": "password1",                   // REQUIRED for password-based auth
+  "password_encryption": "true",             // OPTIONAL: "true" or "false" (applies to password-based auth)
+  "custom_ssh_key_path": "/path/to/key",     // OPTIONAL: private key file (for key-based auth)
+  "commands": [                                 // REQUIRED (should not be empty)
+    {
+      "command": "terminal length 0",        // REQUIRED
+      "expected_end": "Router1>",            // OPTIONAL: prompt indicating completion
+      "command_timeout": 10                   // OPTIONAL per-command timeout (overrides top-level)
+    },
+    {
+      "command": "show interfaces",
+      "expected_end": "Router1>",
+      "command_timeout": 30
+    }
+  ]
 }
 ```
+
 
 ### Request Parameters
 
 | Parameter | Type | Required | Notes |
 |-----------|------|----------|-------|
-| `router_ip` | string | ✓ | Target device IP address |
-| `commands` | array | ✓ | List of commands to execute (see below) |
-| `username` | string | if mode=2 | SSH username (required in dynamic credentials mode) |
-| `password` | string | if mode=2 | SSH password (encrypted or plaintext) |
-| `ssh_port` | int | | SSH port (default: 22) |
 | `request_id` | string | | Optional tracking identifier |
-| `disable_password_encryption` | bool | | Skip decryption for this request (default: false) |
-| `commands_timeout` | int | | Global timeout per command in seconds (default: 120) |
+| `router_ip` | string | ✓ | Target device IP address |
+| `ssh_port` | int | | SSH port (default: 22) |
+| `username` | string | required for password-based auth | SSH username |
+| `ssh_login_method` | string | | Authentication method: `password-based` or `key-based` (default: `password-based`) |
+| `password` | string | required for password-based auth | SSH password (encrypted or plaintext depending on `password_encryption`) |
+| `password_encryption` | string | | When using password-based auth, set to `true` to decrypt the provided password, or `false` to use plaintext. Values are the strings `"true"` or `"false"`. |
+| `custom_ssh_key_path` | string | optional for key-based auth | Path to a private key file used when `ssh_login_method` is `key-based`. |
+| `commands` | array | ✓ | List of commands to execute (see below) |
 
 ### Command Object
 
@@ -121,7 +123,7 @@ Each command in the `commands` array has:
 |-------|------|----------|-------|
 | `command` | string | ✓ | CLI command to execute |
 | `expected_end` | string | | Prompt pattern indicating completion (e.g., `Router1>`) |
-| `command_timeout` | int | | Per-command timeout (overrides global timeout)  
+| `command_timeout` | int | | Per-command timeout 
 
 ### API Response
 
@@ -146,9 +148,17 @@ Each command in the `commands` array has:
 
 ## 🔐 Security
 
+### SSH Key-Based Authentication
+
+API2SSH supports SSH key authentication. Configure key-based access between the machine running API2SSH and the target devices, then set `ssh_login_method` to `key-based` in your API request.
+
+By default, the system key path is used. If you need to specify a different private key, provide `custom_ssh_key_path` with the full path to the key file.
+
+Ensure the corresponding public key is present in the remote device’s `authorized_keys` file with proper permissions, otherwise authentication will fail.
+
 ### Fernet-Based Password Encryption
 
-API2SSH supports optional Fernet encryption for passwords:
+We strongly recommend using key-based authentication but also provide an optional Fernet encryption for password-based authentication:
 
 - Passwords are decrypted using a **Fernet key** before SSH connection
 - Decryption happens **in memory only**
@@ -160,10 +170,10 @@ API2SSH supports optional Fernet encryption for passwords:
 **Encrypted Mode (Recommended)**
 - Passwords are encrypted with Fernet
 - Provide Fernet key at startup
-- Set `disable_password_encryption: false` (default)
+- Set `password_encryption: false` (default)
 
 **Plaintext Mode**
-- Set `disable_password_encryption: true` in request
+- Set `password_encryption: true` in request
 - Password used as-is
 - Only for trusted internal environments
 
@@ -224,14 +234,9 @@ or
 API2SSH Demo vx- MACOS-arm64
 ```
 
-During startup:
-1. Enter the **port number**
-2. Choose **SSH Login Method** (1 or 2)
-3. Select **"Y"** when asked about encryption
-4. Paste your **Fernet key** from Step 1
-5. Paste your **encrypted password** from Step 2
+During startup, paste your **Fernet key** when prompted:
 
-The server will now decrypt passwords in-memory before connecting to devices.
+The server can now decrypt passwords in-memory before connecting to devices.
 
 ---
 
@@ -242,7 +247,7 @@ The server will now decrypt passwords in-memory before connecting to devices.
                                         ↓
 2. Encrypt Password → CipherEncrypter → Encrypted Password
                                         ↓
-3. Start App       → api2sshdemo → Use Key + Encrypted Password
+3. Start App       → API2SSHdemo → Use Key + Encrypted Password
                                         ↓
 4. Make API Calls  → Send requests with router IP and commands
 ```
@@ -259,7 +264,7 @@ The server will now decrypt passwords in-memory before connecting to devices.
 
 ## 🔌 n8n Workflow Templates
 
-One of the main objective of this tool to to enable interactive SSH Shell command execution on n8n. 
+One of the main objective of this tool to to enable interactive SSH Shell command execution on automation platforms such as n8n. 
 Sample n8n workflows:
 
 ### API2SSH-based n8n Workflow to run multiline script (uploaded to GitHub repository):
