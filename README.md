@@ -156,6 +156,8 @@ By default, the system key path is used. If you need to specify a different priv
 
 Ensure the corresponding public key is present in the remote device’s `authorized_keys` file with proper permissions, otherwise authentication will fail.
 
+---
+
 ### Fernet-Based Password Encryption
 
 We strongly recommend using key-based authentication but also provide an optional Fernet encryption for password-based authentication:
