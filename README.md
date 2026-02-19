@@ -1,8 +1,8 @@
 # 🚀 API2SSH
 
-Automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, and configuration audits** — effortlessly.  
+Automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, configuration audits and more** — effortlessly.  
 
-Want to build **network operation workflows** triggered by monitoring tools like **Zabbix, Grafana, Nagios, Cacti, or PRTG**? API2SSH is your bridge.  
+Want to build **network operation workflows** triggered by monitoring tools like **Zabbix, Grafana, Nagios, Cacti or PRTG**? API2SSH is your bridge.  
 
 **API2SSH** is a REST-to-SSH server that turns HTTP requests into **real, interactive SSH sessions**. Connect your automation platform directly to CLI-based devices — no complex session handling required.  
 
