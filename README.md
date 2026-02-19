@@ -272,27 +272,6 @@ The server can now decrypt passwords in-memory before connecting to devices.
 
 ---
 
-## 🔄 Workflow Summary
-
-```
-1. Generate Key    → CipherGenKey → Fernet Key
-                                        ↓
-2. Encrypt Password → CipherEncrypter → Encrypted Password
-                                        ↓
-3. Start App       → API2SSHdemo → Use Key + Encrypted Password
-                                        ↓
-4. Make API Calls  → Send requests with router IP and commands
-```
-
----
-
-## 💡 Use Cases
-
-- **Network Automation**: Automate router/switch configuration
-- **Orchestration Platforms**: n8n, Zapier, Make integration
-- **MSP Operations**: Manage multiple customer devices
-- **Legacy CLI Modernization**: REST API for CLI-only devices
-
 
 ## 🔌 n8n Workflow Templates
 
