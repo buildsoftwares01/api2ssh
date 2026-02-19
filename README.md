@@ -1,10 +1,17 @@
 # 🚀 API2SSH
 
-**Turn API calls into deterministic SSH automation for platforms like n8n, Zapier, and Make.**
+Automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, and configuration audits** — effortlessly.  
 
-API2SSH is a REST-to-SSH bridge server that turns HTTP requests into real, interactive SSH sessions for network devices and servers. Connect automation platforms directly to CLI-based devices without dealing with complex SSH session management.  
+Want to build **network operation workflows** triggered by monitoring tools like **Zabbix, Grafana, Nagios, Cacti, or PRTG**? API2SSH is your bridge.  
 
-Most automation platforms handle only non-interactive SSH, but most network operations require **prompt awareness**, **timing control**, and **interactive session handling**. API2SSH solves this problem.
+**API2SSH** is a REST-to-SSH server that turns HTTP requests into **real, interactive SSH sessions**. Connect your automation platform directly to CLI-based devices — no complex session handling required.  
+
+While most automation tools only support non-interactive SSH, network operations often need:  
+- **Prompt awareness**  
+- **Timing control**  
+- **Interactive session handling**  
+
+API2SSH gives you full control of interactive CLI workflows, making automation **simpler, faster, and more reliable**.
 
 > **Community Edition**: Limited to 3 devices for small production networks, testing and evaluation.  
 
