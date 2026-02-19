@@ -199,18 +199,6 @@ We strongly recommend using key-based authentication but also provide an optiona
 - Passwords are never logged or stored on disk
 - You control the encryption key
 
-### Password Modes
-
-**Encrypted Mode (Recommended)**
-- Passwords are encrypted with Fernet
-- Provide Fernet key at startup
-- Set `password_encryption: "false"` (default)
-
-**Plaintext Mode**
-- Set `password_encryption: "true"` in request
-- Password used as-is
-- Only for trusted internal environments
-
 ### Key Generation & Password Encryption
 
 **Step 1: Generate a Fernet Encryption Key**
