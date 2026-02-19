@@ -24,7 +24,8 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 - ✅ **Prompt-aware** command completion detection  
 - ✅ **Sequential** command execution  
 - ✅ **Per-command** timeout protection  
-- ✅ **REST-to-CLI** bridge for automation platforms  
+- ✅ **REST-to-CLI** bridge for automation platforms
+- ✅ **Supports** both key-based and password-based SSH authentication 
 - ✅ **Fernet-based** password encryption
 
 ---
