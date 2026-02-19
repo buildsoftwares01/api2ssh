@@ -45,8 +45,8 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 
 ## 🚀 Quick Start
 
-1. **Download and Run the executable** from the [Releases section](https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
-2. **Configure a port on which API2SSH can run** and enter your Fernet encryption key (optional, more details in the Security section):
+1. **Download and Run the latest executable** from the [Releases section](https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
+2. **Configure a port on which API2SSH can run** and enter your Fernet encryption key (optional; more details in the Security section):
 
 <div align="center">
 <img width="572" height="395" alt="Screenshot 2026-02-19 at 12 02 37" src="https://github.com/user-attachments/assets/4cca87b1-cea0-4f93-8993-3321932f414c" />
@@ -204,21 +204,12 @@ We strongly recommend using key-based authentication but also provide an optiona
 **Encrypted Mode (Recommended)**
 - Passwords are encrypted with Fernet
 - Provide Fernet key at startup
-- Set `password_encryption: false` (default)
+- Set `password_encryption: "false"` (default)
 
 **Plaintext Mode**
-- Set `password_encryption: true` in request
+- Set `password_encryption: "true"` in request
 - Password used as-is
 - Only for trusted internal environments
-
-### Best Practices
-
-- ✅ Run behind a firewall or reverse proxy
-- ✅ Use HTTPS/TLS when exposing externally
-- ✅ Enable Fernet encryption in production
-- ✅ Protect encryption keys securely
-- ✅ Rotate credentials regularly
-- ❌ Avoid plaintext mode in production
 
 ### Key Generation & Password Encryption
 
@@ -274,10 +265,7 @@ The server can now decrypt passwords in-memory before connecting to devices.
 
 ---
 
-## 🔌 n8n Workflow Templates
-
-One of the main objective of this tool to to enable interactive SSH Shell command execution on automation platforms such as n8n. 
-Sample n8n workflows:
+## 🔌 Sample n8n Workflow using API2SSH
 
 ### API2SSH-based n8n Workflow to run multiline script (uploaded to GitHub repository):
 
