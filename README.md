@@ -27,6 +27,8 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 - ✅ **REST-to-CLI** bridge for automation platforms  
 - ✅ **Fernet-based** password encryption
 
+---
+
 ## 🏗️ Architecture
 
 <img width="604" height="359" alt="Screenshot 2026-02-17 at 20 58 44" src="https://github.com/user-attachments/assets/7dfcd6d2-db8d-4626-8457-d22f929ceca8" />
@@ -271,7 +273,6 @@ During startup, paste your **Fernet key** when prompted:
 The server can now decrypt passwords in-memory before connecting to devices.
 
 ---
-
 
 ## 🔌 n8n Workflow Templates
 
