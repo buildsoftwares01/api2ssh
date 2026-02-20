@@ -29,20 +29,6 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 
 ---
 
-## 🏗️ Architecture
-
-<img width="604" height="359" alt="Screenshot 2026-02-17 at 20 58 44" src="https://github.com/user-attachments/assets/7dfcd6d2-db8d-4626-8457-d22f929ceca8" />
-
-
-**Flow:**
-1. Client sends HTTP POST with commands and router IP
-2. API2SSH validates request and decrypts password (if encrypted)
-3. Opens interactive SSH session to router
-4. Executes commands sequentially with prompt detection
-5. Returns structured JSON with outputs
-
----
-
 ## 🚀 Quick Start
 
 1. **Download and Run the latest executable** from the [Releases section](https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
@@ -63,6 +49,20 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 <div align="center">
 <img width="533" height="477" alt="Screenshot 2026-02-19 at 12 10 35" src="https://github.com/user-attachments/assets/faf61287-a300-4135-b5e8-882d98ffc003" />
 </div>
+
+---
+
+## 🏗️ Architecture
+
+<img width="604" height="359" alt="Screenshot 2026-02-17 at 20 58 44" src="https://github.com/user-attachments/assets/7dfcd6d2-db8d-4626-8457-d22f929ceca8" />
+
+
+**Flow:**
+1. Client sends HTTP POST with commands and router IP
+2. API2SSH validates request and decrypts password (if encrypted)
+3. Opens interactive SSH session to router
+4. Executes commands sequentially with prompt detection
+5. Returns structured JSON with outputs
 
 ---
 
@@ -96,12 +96,14 @@ The service will:
     {
       "command": "terminal length 0",        // REQUIRED
       "expected_end": "Router1>",            // OPTIONAL: prompt indicating completion
-      "command_timeout": 10                  // OPTIONAL per-command timeout (overrides top-level)
+      "command_timeout": 10,                 // OPTIONAL per-command timeout (overrides top-level)
+      "stop_on_timeout": "yes"             // OPTIONAL: "yes" or "no" (case-insensitive). Default: "yes" (stop on timeout)
     },
     {
       "command": "show interfaces",
       "expected_end": "Router1>",
-      "command_timeout": 30
+      "command_timeout": 30,
+      "stop_on_timeout": "yes"
     }
   ]
 }
@@ -121,12 +123,14 @@ The service will:
     {
       "command": "terminal length 0",        // REQUIRED
       "expected_end": "Router1>",            // OPTIONAL: prompt indicating completion
-      "command_timeout": 10                  // OPTIONAL per-command timeout (overrides top-level)
+      "command_timeout": 10,                 // OPTIONAL per-command timeout (overrides top-level)
+      "stop_on_timeout": "yes"             // OPTIONAL: "yes" or "no" (case-insensitive). Default: "yes" (stop on timeout)
     },
     {
       "command": "show interfaces",
       "expected_end": "Router1>",
-      "command_timeout": 30
+      "command_timeout": 30,
+      "stop_on_timeout": "yes"
     }
   ]
 }
@@ -155,7 +159,8 @@ Each command in the `commands` array has:
 |-------|------|----------|-------|
 | `command` | string | ✓ | CLI command to execute |
 | `expected_end` | string | | Prompt pattern indicating completion (e.g., `Router1>`) |
-| `command_timeout` | int | | Per-command timeout 
+| `command_timeout` | int | | Per-command timeout |
+| `stop_on_timeout` | string | | Abort Execution if failure |
 
 ### API Response
 
