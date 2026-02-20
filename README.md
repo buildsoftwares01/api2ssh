@@ -29,6 +29,25 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 
 ---
 
+## 🔌 Sample n8n Workflow Enabled By API2SSH
+
+### API2SSH-based n8n Workflow to run multiline script (e.g for provisioning) (uploaded to GitHub repository):
+
+<img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
+
+### API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
+
+<img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
+
+### API2SSH-based n8n Workflow to build a live table of network resources (available in commercial package):
+<img width="1422" height="736" alt="Workflow Webhook- Table" src="https://github.com/user-attachments/assets/f5f73540-0288-414a-a732-cf1f7d123e66" />
+
+Example Resources Table (Interfaces):
+<img width="1915" height="963" alt="Webhook- Table" src="https://github.com/user-attachments/assets/b96ce871-40fb-4d1b-bb4d-3e7d65407299" />
+
+
+---
+
 ## 🚀 Quick Start
 
 1. **Download and Run the latest executable** from the [Releases section](https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
@@ -256,14 +275,3 @@ During startup, paste your **Fernet key** when prompted:
 
 The server can now decrypt passwords in-memory before connecting to devices.
 
----
-
-## 🔌 Sample n8n Workflow using API2SSH
-
-### API2SSH-based n8n Workflow to run multiline script (uploaded to GitHub repository):
-
-<img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
-
-### API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
-
-<img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
