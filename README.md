@@ -20,7 +20,7 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 ---
 
 ## ✨ Features
-
+- ✅ **Direct SSH channel control** (no Netmiko dependency) for finer-grained session handling and custom logic
 - ✅ **Prompt-aware** command completion detection
 - ✅ **Sequential** command execution  
 - ✅ **Per-command** timeout protection  
