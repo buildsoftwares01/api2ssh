@@ -31,16 +31,17 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 
 ## 🔌 Sample n8n Workflow Enabled By API2SSH
 
-### 1. API2SSH-based n8n Workflow to run multiline script (e.g for provisioning) (uploaded to GitHub repository):
+### 1. Run Multiline Scripts On Devices (e.g for provisioning) (uploaded to GitHub repository):
 
 <img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
 
-### 2. API2SSH-based n8n Workflow to run daily automatic backup of routers (available in commercial package):
+### 2. Run Daily Automatic Backup of Routers (available in commercial package):
 
 <img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
 
-### 3. API2SSH-based n8n Workflow to build a live table of network resources (available in commercial package):
+### 3. Build a live table of network resources (available in commercial package):
 <img width="1422" height="736" alt="Workflow Webhook- Table" src="https://github.com/user-attachments/assets/f5f73540-0288-414a-a732-cf1f7d123e66" />
+
 
 Example Resources Table (Interfaces):
 <img width="1915" height="963" alt="Webhook- Table" src="https://github.com/user-attachments/assets/b96ce871-40fb-4d1b-bb4d-3e7d65407299" />
