@@ -15,7 +15,7 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 ## 💼 Enterprise Edition
 - **Multi-device support** for large networks  
 - Consulting and custom solutions available through a **university-affiliated program**  
-- For inquiries and sales, contact: **buildsoftwares01@gmail.com**
+- For inquiries and sales, [Contact Sales](mailto:buildsoftwares01@gmail.com)
 
 ---
 
