@@ -1,5 +1,20 @@
 # 🚀 API2SSH
 
+## 📑 Quick Links
+
+- [Community Edition](#-community-edition)
+- [Enterprise Edition](#-enterprise-edition)
+- [Features](#-features)
+- [Sample n8n Workflow](#-sample-n8n-workflow-enabled-by-api2ssh)
+- [Quick Start](#-quick-start)
+- [Architecture](#-architecture)
+- [API Endpoint](#-api-endpoint)
+- [API Request](#api-request)
+- [Request Parameters](#request-parameters)
+- [Command Object](#command-object)
+- [API Response](#api-response)
+- [Security](#-security)
+
 Automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, configuration audits and more** — effortlessly.  
 
 Want to build **network operation workflows** on platforms like **n8n** using triggers from **Zabbix, Grafana, Nagios, Cacti, or PRTG** — but need interactive SSH support? **API2SSH** is your bridge.
@@ -25,7 +40,6 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 - ✅ **Sequential** command execution  
 - ✅ **Per-command** timeout protection  
 - ✅ **Supports** both key-based and password-based SSH authentication 
-- ✅ **Fernet-based** password encryption
 
 ---
 
@@ -52,19 +66,14 @@ Example Resources Table (Interfaces):
 ## 🚀 Quick Start
 
 1. **Download and Run the latest executable** from the [Releases section](https://github.com/buildsoftwares01/api2ssh/releases) and wait a few seconds for startup
-2. **Configure a port on which API2SSH can run** and enter your Fernet encryption key (optional; more details in the Security section):
 
-<div align="center">
-<img width="572" height="395" alt="Screenshot 2026-02-19 at 12 02 37" src="https://github.com/user-attachments/assets/4cca87b1-cea0-4f93-8993-3321932f414c" />
-</div>
-
-3. **Send API requests** to `http://localhost:PORT/api/api2ssh`. I am using Postman for demonstration:
+2. **Send API requests** to `http://localhost:PORT/api/api2ssh`. I am using Postman for demonstration:
 
 <div align="center">
 <img width="541" height="511" alt="Screenshot 2026-02-19 at 12 09 12" src="https://github.com/user-attachments/assets/4c559691-6496-4131-92e6-86f111e494ec" />
 </div>
 
-4. **The API Request will start an SSH Shell session** on the specified router IP address and execute the series of commands given. You will obtain an API response with each command's output:
+3. **The API Request will start an SSH Shell session** on the specified router IP address and execute the series of commands given. You will obtain an API response with each command's output:
 
 <div align="center">
 <img width="533" height="477" alt="Screenshot 2026-02-19 at 12 10 35" src="https://github.com/user-attachments/assets/faf61287-a300-4135-b5e8-882d98ffc003" />
@@ -79,10 +88,9 @@ Example Resources Table (Interfaces):
 
 **Flow:**
 1. Client sends HTTP POST with commands and router IP
-2. API2SSH validates request and decrypts password (if encrypted)
-3. Opens interactive SSH session to router
-4. Executes commands sequentially with prompt detection
-5. Returns structured JSON with outputs
+2. Opens interactive SSH session to router
+3. Executes commands sequentially with prompt detection
+4. Returns structured JSON with outputs
 
 ---
 
@@ -138,7 +146,6 @@ The service will:
   "username": "admin",                       // REQUIRED
   "ssh_login_method": "password-based",      // REQUIRED: "password-based" or "key-based"
   "password": "password1",                   // REQUIRED for password-based auth
-  "password_encryption": "true",             // OPTIONAL: "true" or "false" (applies to password-based auth)
   "commands": [                              // REQUIRED (should not be empty)
     {
       "command": "terminal length 0",        // REQUIRED
@@ -167,7 +174,6 @@ The service will:
 | `username` | string | required for password-based auth | SSH username |
 | `ssh_login_method` | string | | Authentication method: `password-based` or `key-based` (default: `password-based`) |
 | `password` | string | required for password-based auth | SSH password (encrypted or plaintext depending on `password_encryption`) |
-| `password_encryption` | string | | When using password-based auth, set to `true` to decrypt the provided password, or `false` to use plaintext. Values are the strings `"true"` or `"false"`. |
 | `custom_ssh_key_path` | string | optional for key-based auth | Path to a private key file used when `ssh_login_method` is `key-based`. |
 | `commands` | array | ✓ | List of commands to execute (see below) |
 
@@ -205,7 +211,7 @@ Each command in the `commands` array has:
 
 ## 🔐 Security
 
-### Method 1- SSH Key-Based Authentication
+### SSH Key-Based Authentication
 
 API2SSH supports secure SSH key-based authentication. Configure key-based access between the machine running API2SSH and the target devices, then set `ssh_login_method` to `key-based` in your API request.
 
@@ -214,65 +220,4 @@ By default, the system key path is used. If you need to specify a different priv
 Ensure the corresponding public key is present in the remote device’s `authorized_keys` file with proper permissions, otherwise authentication will fail.
 
 ---
-
-### Method 2-Fernet-Based Password Encryption
-
-We strongly recommend using key-based authentication but also provide an optional Fernet encryption for password-based authentication:
-
-- Passwords are decrypted using a **Fernet key** before SSH connection
-- Decryption happens **in memory only**
-- Passwords are never logged or stored on disk
-- You control the encryption key
-
-### Key Generation & Password Encryption
-
-**Step 1: Generate a Fernet Encryption Key**
-
-Run the key generator executable:
-```bash
-CipherGenKey.exe
-```
-
-Output:
-```
-Your New Fernet Encryption Key :
-<your-long-key-string>
-```
-
-**Save this key securely** — you'll need it every time you start API2SSH. Do not save on same server where API2SSH will run.
-
----
-
-**Step 2: Encrypt Your SSH Password**
-
-Run the cipher encrypter executable:
-```bash
-CipherEncrypter.exe
-```
-
-You'll be prompted for:
-1. **Encryption Key** → Paste the key generated in Step 1
-2. **Secret to Encrypt** → Your SSH password
-
-Output:
-```
-Encrypted: b'gAAAAABl...<encrypted-password>...'
-```
-
-**Copy the entire encrypted string** (excluding the `b'...'` wrapper).
-
----
-
-**Step 3: Start API2SSH with Encrypted Credentials**
-
-Run the main API2SSH server:
-```bash
-API2SSH Demo vx- Windows.exe
-or
-API2SSH Demo vx- MACOS-arm64
-```
-
-During startup, paste your **Fernet key** when prompted:
-
-The server can now decrypt passwords in-memory before connecting to devices.
 
