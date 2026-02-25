@@ -54,7 +54,7 @@ For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 
 ### 1. Run Multiline Scripts On Devices (e.g for provisioning) (uploaded to GitHub repository):
 
-<img width="873" height="207" alt="Screenshot 2026-02-16 at 22 08 09" src="https://github.com/user-attachments/assets/0c132015-2f9f-42cc-a878-493dca26ecaf" />
+<img width="487" height="167" alt="Screenshot 2026-02-25 at 18 01 12" src="https://github.com/user-attachments/assets/9118dcc7-9261-42d9-a8c0-c6677c727267" />
 
 ### 2. Run Daily Automatic Backup of Routers (available in Enterprise package):
 
@@ -63,8 +63,8 @@ For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 ### 3. Build a live table of network resources (available in Enterprise package):
 <img width="1422" height="736" alt="Workflow Webhook- Table" src="https://github.com/user-attachments/assets/f5f73540-0288-414a-a732-cf1f7d123e66" />
 
-
 Example Resources Table (Interfaces):
+
 <img width="1915" height="963" alt="Webhook- Table" src="https://github.com/user-attachments/assets/b96ce871-40fb-4d1b-bb4d-3e7d65407299" />
 
 
