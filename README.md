@@ -21,18 +21,25 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 
 **API2SSH** is a REST-to-SSH server that turns HTTP requests into **real, interactive SSH sessions**. Connect your automation platform directly to CLI-based devices — no complex session handling required.  
 
-## ⚡ Community Edition
-- Limited to **3 devices**  
-- Intended for **testing, evaluation, and small production networks**  
-
 ---
 
-## 💼 Enterprise Edition
-- **Multi-device support** for large networks  
-- Consulting and custom solutions available through a **university-affiliated program**  
-- For inquiries and sales, [Contact Sales](mailto:buildsoftwares01@gmail.com)
+## 🚀 Choose Your Edition
 
----
+| Feature | Community | Enterprise |
+|----------|------------|-------------|
+| Device Limit | 3 devices | Unlimited |
+| Intended Use | Testing & small networks | Production-scale networks |
+| Interactive SSH | ✅ | ✅ |
+| Workflow Automation | ✅ | ✅ |
+| Consulting Support | ❌ | ✅ |
+| Custom Solutions | ❌ | ✅ |
+
+### ⚡ Community
+Ideal for evaluation, labs, and small production setups.
+
+### 💼 Enterprise
+Built for large-scale automation and operational environments.  
+For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 
 ## ✨ Features
 - ✅ **Direct SSH channel control** (no Netmiko dependency) for finer-grained session handling and custom logic
