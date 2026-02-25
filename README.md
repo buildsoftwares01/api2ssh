@@ -2,8 +2,6 @@
 
 ## 📑 Quick Links
 
-- [Community Edition](#-community-edition)
-- [Enterprise Edition](#-enterprise-edition)
 - [Features](#-features)
 - [Sample n8n Workflow](#-sample-n8n-workflow-enabled-by-api2ssh)
 - [Quick Start](#-quick-start)
