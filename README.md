@@ -13,6 +13,8 @@
 - [API Response](#api-response)
 - [Security](#-security)
 
+---
+
 Automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, configuration audits and more** — effortlessly.  
 
 Want to build **network operation workflows** on platforms like **n8n** using triggers from **Zabbix, Grafana, Nagios, Cacti, or PRTG** — but need interactive SSH support? **API2SSH** is your bridge.
