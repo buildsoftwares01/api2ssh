@@ -3,7 +3,7 @@
 ## 📑 Quick Links
 
 - [Features](#-features)
-- [Sample n8n Workflow](#-sample-n8n-workflow-enabled-by-api2ssh)
+- [Projects Powered by API2SSH](#-sample-n8n-workflow-enabled-by-api2ssh)
 - [Quick Start](#-quick-start)
 - [Architecture](#-architecture)
 - [API Endpoint](#-api-endpoint)
@@ -50,23 +50,33 @@ For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 
 ---
 
-## 🔌 API2SSH-Enabled n8n Workflows
+## 🔌 Projects Powered by API2SSH
 
-### 1. Run Multiline Scripts On Devices (uploaded to GitHub repository):
-Use only 2 nodes to run multiline scripts on multiple network devices simultaneously. Suitable for bulk configuration changes, provisioning, queries and auditing.
+All the below workflows are available in the enterprise package.
 
-<img width="487" height="167" alt="Screenshot 2026-02-25 at 18 01 12" src="https://github.com/user-attachments/assets/9118dcc7-9261-42d9-a8c0-c6677c727267" />
+### 1. AI-based Interface Configuration Audit:
 
-### 2. Daily Automatic Device Backup (Workflow included in Enterprise package):
+![Bundle- Ai-based Network Audit](https://github.com/user-attachments/assets/bb47f0be-5aad-4601-ae7d-f9a00ed75420)
+
+### 2. Daily Automatic Device Backup:
 
 <img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
 
-### 3. Build a live table of network resources (Workflow included in Enterprise package):
-<img width="1422" height="736" alt="Workflow Webhook- Table" src="https://github.com/user-attachments/assets/f5f73540-0288-414a-a732-cf1f7d123e66" />
+### 3. IP Address Management (IPAM):
 
-Example Resources Table (Interfaces):
+<img width="903" height="450" alt="Bundle- NetSearch Homepage" src="https://github.com/user-attachments/assets/56199d96-8c39-45c4-870b-8a4c7912742e" />
 
-<img width="1915" height="963" alt="Webhook- Table" src="https://github.com/user-attachments/assets/b96ce871-40fb-4d1b-bb4d-3e7d65407299" />
+Search any resource:
+
+<img width="1402" height="991" alt="Bundle- NetSearch IPaddress Results" src="https://github.com/user-attachments/assets/bddb6a39-93fe-47c4-addf-8d1b6a633d35" />
+
+View complete network's resources in a single table:
+
+<img width="1872" height="851" alt="Bundle- IPAM" src="https://github.com/user-attachments/assets/3058e07a-97bc-427d-8f6a-62179cfbbe4d" />
+
+View all Interfaces' state:
+
+<img width="1868" height="861" alt="Bundle- Interface Status" src="https://github.com/user-attachments/assets/c010f713-7aba-4ac8-8a3c-89e885538b9b" />
 
 
 ---
