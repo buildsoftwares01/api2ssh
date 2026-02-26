@@ -52,8 +52,8 @@ For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 
 ## 🔌 API2SSH-Enabled n8n Workflows
 
-### 1. Run Multiline Scripts On Devices (e.g for provisioning) (uploaded to GitHub repository):
-Use only 2 nodes to run multiline scripts on multille network devices simultaneously.
+### 1. Run Multiline Scripts On Devices (uploaded to GitHub repository):
+Use only 2 nodes to run multiline scripts on multiple network devices simultaneously. Suitable for bulk configuration changes, provisioning, queries and auditing.
 
 <img width="487" height="167" alt="Screenshot 2026-02-25 at 18 01 12" src="https://github.com/user-attachments/assets/9118dcc7-9261-42d9-a8c0-c6677c727267" />
 
