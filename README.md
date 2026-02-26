@@ -50,17 +50,18 @@ For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 
 ---
 
-## 🔌 Sample n8n Workflow Enabled By API2SSH
+## 🔌 API2SSH-Enabled n8n Workflows
 
 ### 1. Run Multiline Scripts On Devices (e.g for provisioning) (uploaded to GitHub repository):
+Use only 2 nodes to run multiline scripts on multille network devices simultaneously.
 
 <img width="487" height="167" alt="Screenshot 2026-02-25 at 18 01 12" src="https://github.com/user-attachments/assets/9118dcc7-9261-42d9-a8c0-c6677c727267" />
 
-### 2. Run Daily Automatic Backup of Routers (available in Enterprise package):
+### 2. Daily Automatic Device Backup (workflow included in Enterprise package):
 
 <img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
 
-### 3. Build a live table of network resources (available in Enterprise package):
+### 3. Build a live table of network resources (workflow included in Enterprise package):
 <img width="1422" height="736" alt="Workflow Webhook- Table" src="https://github.com/user-attachments/assets/f5f73540-0288-414a-a732-cf1f7d123e66" />
 
 Example Resources Table (Interfaces):
