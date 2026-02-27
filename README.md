@@ -39,7 +39,8 @@ Ideal for evaluation, labs, and small production setups.
 
 ### 💼 Pro
 Built for large-scale automation and operational environments.  
-For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
+Purchase on KoFi (preferred):
+Purchase on Gumroad: [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
 
 ## ✨ Features
 - ✅ **Direct SSH channel control** (no Netmiko dependency) for finer-grained session handling and custom logic
