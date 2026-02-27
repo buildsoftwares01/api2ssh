@@ -3,7 +3,7 @@
 ## 📑 Quick Links
 
 - [Features](#-features)
-- [Projects Powered by API2SSH](#-sample-n8n-workflow-enabled-by-api2ssh)
+- [Projects Powered by API2SSH](#-projects-powered-by-api2ssh)
 - [Quick Start](#-quick-start)
 - [Architecture](#-architecture)
 - [API Endpoint](#-api-endpoint)
