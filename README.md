@@ -53,7 +53,7 @@ Purchase on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
 
 ## 🔌 Projects Powered by API2SSH
 
-All the below workflows are available in the enterprise package.
+All the below workflows are available in the Pro package.
 
 ### 1. AI-based Interface Configuration Audit:
 
