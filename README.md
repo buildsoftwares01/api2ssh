@@ -40,7 +40,7 @@ Purchase on [KoFi](https://ko-fi.com/s/1eb20d3533) (Preferred).
 
 Purchase on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
 
-For custom workflows, please contact the **[developers](mailto:buildsoftwares01@gmail.com)**.
+For custom workflows and consultancy, please contact the **[developers](mailto:buildsoftwares01@gmail.com)**.
 
 ## ✨ Features
 - ✅ **Direct SSH channel control** (no Netmiko dependency) for finer-grained session handling and custom logic
