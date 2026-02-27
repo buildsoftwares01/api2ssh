@@ -1,0 +1,1469 @@
+{
+  "name": "Bundle- IPAM Full",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -240,
+        32
+      ],
+      "id": "66044198-b3fb-4b5a-8bb0-1a20c4487789",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\List-Devices.xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        32
+      ],
+      "id": "41efe7b2-418b-45fd-a26d-034c61f164f8",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        208,
+        32
+      ],
+      "id": "1d131c69-87b5-4fc9-b150-1ec498188cf1",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/api/api2ssh",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"request_id\":\"{{ $json[\"Device Name\"] }}\",\n\"router_ip\": \"{{ $json['IP Address'] }}\",\n\"ssh_port\":22,\n\"username\":\"testuser\",\n\"password\":\"pass123!\",\n\"commands\": [\n{\n\"command\": \"screen-length 0 temporary\",\n\"expected_end\": \">\",\n\"command_timeout\":60\n},\n{\n\"command\": \"display current\",\n\"expected_end\": \"{{ $json[\"Device Name\"] }}>\",\n\"command_timeout\":60\n}\n]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        32
+      ],
+      "id": "4690c7ae-4129-447d-a843-42327a095988",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "path": "search",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -240,
+        256
+      ],
+      "id": "f7a2cb9a-3b1d-4329-9315-4fa89ff5e03a",
+      "name": "Webhook",
+      "webhookId": "ede4c62c-2dca-470e-b55f-508666df0cd3"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Search Results</title>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap\" rel=\"stylesheet\">\n    <style>\n        :root {\n            --bg: #f1f5f9;\n            --panel: #ffffff;\n            --primary: #0f172a;\n            --accent: #38bdf8;\n            --border: #e2e8f0;\n            --text-main: #334155;\n            --text-ghost: #64748b;\n        }\n\n        body {\n            font-family: 'Inter', sans-serif;\n            background-color: var(--bg);\n            color: var(--text-main);\n            margin: 0;\n            padding: 40px 20px;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n        }\n\n        .container {\n            width: 100%;\n            max-width: 1100px;\n        }\n\n        header {\n            margin-bottom: 32px;\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            background: rgba(255, 255, 255, 0.6);\n            padding: 20px;\n            border-radius: 16px;\n            backdrop-filter: blur(10px);\n            border: 1px solid var(--panel);\n        }\n\n        h1 {\n            font-size: 1.25rem;\n            font-weight: 800;\n            color: var(--primary);\n            margin: 0;\n            display: flex;\n            align-items: center;\n            gap: 10px;\n        }\n\n        h1::before {\n            content: '';\n            width: 4px;\n            height: 24px;\n            background: var(--accent);\n            border-radius: 4px;\n        }\n\n        .results-count {\n            background: var(--primary);\n            color: white;\n            padding: 6px 14px;\n            border-radius: 8px;\n            font-size: 0.75rem;\n            font-weight: 700;\n            text-transform: uppercase;\n            letter-spacing: 0.05em;\n        }\n\n        .table-wrapper {\n            background: var(--panel);\n            border-radius: 16px;\n            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);\n            border: 1px solid var(--border);\n            overflow: hidden;\n        }\n\n        table {\n            width: 100%;\n            border-collapse: collapse;\n            table-layout: fixed;\n        }\n\n        th {\n            background: #f8fafc;\n            text-align: left;\n            padding: 16px 24px;\n            font-size: 0.75rem;\n            text-transform: uppercase;\n            letter-spacing: 0.1em;\n            color: var(--text-ghost);\n            border-bottom: 1px solid var(--border);\n        }\n\n        td {\n            padding: 24px;\n            vertical-align: top;\n            border-bottom: 1px solid var(--border);\n        }\n\n        .device-cell {\n            width: 200px;\n            font-weight: 600;\n            color: var(--primary);\n            font-size: 0.95rem;\n        }\n\n        /* Code Block Styling - Cleaned */\n        .code-container {\n            position: relative;\n            background: #1e293b; /* Darker theme for the code itself */\n            border-radius: 8px;\n            border: 1px solid var(--primary);\n        }\n\n        pre {\n            margin: 0;\n            padding: 18px;\n            font-family: 'Fira Code', monospace;\n            font-size: 0.85rem;\n            line-height: 1.6;\n            white-space: pre-wrap;\n            word-break: break-all;\n            color: #e2e8f0;\n            overflow: hidden;\n        }\n\n        .copy-btn {\n            position: absolute;\n            top: 10px;\n            right: 10px;\n            background: rgba(255, 255, 255, 0.1);\n            border: 1px solid rgba(255, 255, 255, 0.2);\n            color: white;\n            padding: 4px 10px;\n            border-radius: 6px;\n            font-size: 0.7rem;\n            font-weight: 600;\n            cursor: pointer;\n            transition: all 0.2s;\n            backdrop-filter: blur(4px);\n        }\n\n        .copy-btn:hover {\n            background: var(--accent);\n            border-color: var(--accent);\n            color: var(--primary);\n        }\n\n        tr:last-child td { border-bottom: none; }\n        tr:hover td { background-color: #f8fafc; }\n    </style>\n</head>\n<body>\n\n<div class=\"container\">\n    <header>\n        <h1>Search Results</h1>\n        <div class=\"results-count\" id=\"count-tag\">0 Nodes</div>\n    </header>\n\n    <div class=\"table-wrapper\">\n        <table>\n            <thead>\n                <tr>\n                    <th class=\"device-cell\">Node</th>\n                    <th>Configuration Output</th>\n                </tr>\n            </thead>\n            <tbody id=\"table-body\"></tbody>\n        </table>\n    </div>\n</div>\n\n<script>\n    // Injected from n8n\n    const data = {{ JSON.stringify($input.all()) }};\n    \n    const tbody = document.getElementById('table-body');\n    const countTag = document.getElementById('count-tag');\n\n    function renderTable() {\n        countTag.innerText = `${data.length} Nodes Found`;\n        \n        tbody.innerHTML = data.map(item => `\n            <tr>\n                <td class=\"device-cell\">${item.json.Device}</td>\n                <td>\n                    <div class=\"code-container\">\n                        <button class=\"copy-btn\" onclick=\"copyText(this)\">Copy</button>\n                        <pre><code>${item.json.Content.trim()}</code></pre>\n                    </div>\n                </td>\n            </tr>\n        `).join('');\n    }\n\n    function copyText(btn) {\n        // Find the <code> tag specifically to avoid copying button text\n        const code = btn.parentElement.querySelector('code').innerText;\n        navigator.clipboard.writeText(code);\n        \n        const originalText = btn.innerText;\n        btn.innerText = 'Copied!';\n        btn.style.background = '#38bdf8';\n        \n        setTimeout(() => {\n            btn.innerText = originalText;\n            btn.style.background = '';\n        }, 2000);\n    }\n\n    renderTable();\n</script>\n\n</body>\n</html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        672,
+        256
+      ],
+      "id": "d00e02c8-5fc6-4d71-840c-4e775b209913",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        256
+      ],
+      "id": "fd62048f-0b87-4b75-96c3-6fe1a99a9684",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\sectioned_config.json",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        256
+      ],
+      "id": "fac24b8b-7399-4d8e-8260-9e585f1425fc",
+      "name": "Read/Write Files from Disk2"
+    },
+    {
+      "parameters": {
+        "content": "-Store your list of devices at C:\\Users\\user1\\.n8n-files\\List-Devices.xlsx.\n-The list of devices should have two columns: Device Name and IP Address.\n-API2SSH must be running in background for the workflow to work.\n-The current SSH authentication in every HTTP Request Node is set to password-based. Change to key-based if necessary.\n-Publish and then open URL: http://localhost:5678/webhook/searchpage\n-Network data is pulled every hour (edit the Schedule Triggers for more real-time data)\n-The workflow depends on the completion of the sheduled flows. The tables will remain empty until the completeion of the flows.",
+        "width": 640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "8fe29363-bb9d-441e-942c-2c9ac3d7c756",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get the array of items from the input\nconst items = $input.all();\nconst searchTerm = $(\"Webhook\").first().json.query[\"search-term\"];\n\nconst results = [];\n\nitems.forEach(item => {\n  // 2. Check if the 'data' array exists in the current item\n  if (item.json.data && Array.isArray(item.json.data)) {\n    \n    // 3. Filter the 'data' array for the search term in 'Content'\n    const filteredData = item.json.data.filter(entry => {\n      // Use .includes() for a partial match (case-sensitive)\n      // Or use .toLowerCase() on both sides for case-insensitive\n      return entry.Content && entry.Content.includes(searchTerm);\n    });\n\n    // 4. Push the matches into the final output array\n    filteredData.forEach(match => {\n      results.push({ json: match });\n    });\n  }\n});\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        256
+      ],
+      "id": "89c75d5b-30a5-41de-bbe4-3886bcec029d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "path": "searchpage",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -240,
+        480
+      ],
+      "id": "6a94776a-f89b-4ff4-9007-2d8740a76a5c",
+      "name": "Webhook1",
+      "webhookId": "ace0af25-5923-4765-9940-1078fed169ae"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Network Search</title>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap\" rel=\"stylesheet\">\n    <style>\n        body {\n            font-family: 'Inter', sans-serif;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n            justify-content: center;\n            height: 100vh;\n            margin: 0;\n            background-color: #fcfcfd;\n        }\n\n        .logo {\n            font-size: 60px;\n            font-weight: 700;\n            letter-spacing: -2px;\n            margin-bottom: 30px;\n            color: #0f172a;\n        }\n\n        .logo span { color: #38bdf8; }\n\n        .search-container {\n            width: 100%;\n            max-width: 600px;\n            padding: 20px;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n        }\n\n        form {\n            width: 100%;\n            display: flex;\n            flex-direction: column;\n            align-items: center;\n        }\n\n        .search-box {\n            width: 100%;\n            padding: 14px 24px;\n            font-size: 16px;\n            border: 1px solid #e2e8f0;\n            border-radius: 28px;\n            outline: none;\n            transition: all 0.2s ease;\n            margin-bottom: 25px;\n            box-shadow: 0 1px 3px rgba(0,0,0,0.05);\n        }\n\n        .search-box:hover, .search-box:focus {\n            box-shadow: 0 4px 12px rgba(0,0,0,0.08);\n            border-color: #38bdf8;\n        }\n\n        .btn-group {\n            display: flex;\n            gap: 12px;\n            margin-bottom: 45px;\n        }\n\n        button {\n            background-color: #f1f5f9;\n            border: 1px solid transparent;\n            border-radius: 8px;\n            color: #475569;\n            font-size: 14px;\n            font-weight: 500;\n            padding: 10px 24px;\n            cursor: pointer;\n            transition: all 0.2s;\n        }\n\n        button:hover {\n            background-color: #e2e8f0;\n            color: #1e293b;\n        }\n\n        /* Improved Aesthetic Links Styling */\n        .links-container {\n            display: flex;\n            gap: 12px;\n            justify-content: center;\n            flex-wrap: wrap;\n        }\n\n        .links-container a {\n            color: #64748b;\n            text-decoration: none;\n            font-size: 13px;\n            font-weight: 500;\n            padding: 8px 18px;\n            border: 1px solid #e2e8f0;\n            border-radius: 20px;\n            background-color: #ffffff;\n            transition: all 0.2s ease;\n        }\n\n        .links-container a:hover {\n            color: #38bdf8;\n            border-color: #38bdf8;\n            background-color: #f0f9ff;\n            transform: translateY(-1px);\n            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15);\n        }\n    </style>\n</head>\n<body>\n\n    <div class=\"logo\">Net<span>Search</span></div>\n\n    <div class=\"search-container\">\n        <form action=\"http://localhost:5678/webhook/search\" method=\"GET\">\n            <input \n                type=\"text\" \n                name=\"search-term\" \n                class=\"search-box\" \n                placeholder=\"Search all network devices...\"\n                required\n                autocomplete=\"off\"\n            >\n            <div class=\"btn-group\">\n                <button type=\"submit\">Search</button>\n                <button type=\"button\" onclick=\"document.querySelector('.search-box').value=''\">Clear</button>\n            </div>\n        </form>\n\n        <div class=\"links-container\">\n            <a href=\"http://localhost:5678/webhook/interface-config\">IPAM</a>\n            <a href=\"http://localhost:5678/webhook/interfaces_status\">Interface List</a>\n            <a href=\"http://localhost:5678/webhook/ai-misconfig\">AI Audit</a>\n        </div>\n    </div>\n\n</body>\n</html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        0,
+        480
+      ],
+      "id": "84624096-7188-459b-a967-29da3411e8c8",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "content": "**Search Home Page**",
+        "height": 176,
+        "width": 496,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -304,
+        448
+      ],
+      "typeVersion": 1,
+      "id": "454ff6ca-6d70-4b26-a5eb-210c3dfd523b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "**Perform Search**",
+        "height": 208,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -304,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "f288127b-bb23-48bb-9f8d-99fc6084c260",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "**Hourly Fetch Network Data**",
+        "height": 224,
+        "width": 1600,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -304,
+        -16
+      ],
+      "typeVersion": 1,
+      "id": "b9f296e1-e48a-48e6-9e84-a30be8d20bb8",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "C:\\Users\\madhavin\\.n8n-files\\sectioned_config.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        32
+      ],
+      "id": "7a38bba4-b704-4c5e-a675-e2e2e0703112",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        32
+      ],
+      "id": "580ef86b-9b25-4538-8319-7f28111bc36f",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().flatMap(item => {\n  const requestId = item.json.request_id;\n  const rawOutput = item.json.results?.[1]?.output || \"\";\n\n  // 1. Split the config by the '#' delimiter (handling newlines around it)\n  const sections = rawOutput.split(/\\r?\\n#\\r?\\n/);\n\n  const matches = [];\n\n  sections.forEach(section => {\n    // 2. Clean up: remove indents and trim whitespace\n    const lines = section.split(/\\r?\\n/)\n      .map(line => line.trim())\n      .filter(line => line.length > 0);\n\n    if (lines.length > 0) {\n      const sectionHeader = lines[0]; // The first line of the block (e.g., 'interface Eth-Trunk1' or 'bgp 65000')\n      const fullSectionContent = lines.join('\\n');\n\n      matches.push({\n        json: {\n          Device: requestId,\n          Content: fullSectionContent\n        }\n      });\n    }\n  });\n\n  return matches;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        32
+      ],
+      "id": "49dadd87-89ba-48e4-a88d-e38bc5b83ac2",
+      "name": "Code in JavaScript1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=List only major interface misconfigurations in the configuration of {{ $json.Device }} below. Start the response with \"{{ $json.Device }}\" and list the issues in the next lines. Ignore security and other non-interface issues by checking only interface blocks. \nIf there are no issues, reply with just \"No Issues.\". \n\nThe list of issues should start with the name of the issue in bold followed by a \":\" and then the issue itself as concise as possible\n\nRename all names so that the results can be publicly shared. There should be zero similarity in terms of naming and naming standards. Also change the IPaddresses and VLANs to LAN and fake ones. Randomize the router name.\n\nConfigurations:\n{{ $json.Full_Interface_Config }}\n"
+            }
+          ]
+        },
+        "jsonOutput": "={{ false }}",
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -272,
+        1040
+      ],
+      "id": "a47aa73e-282c-4e0a-9ba1-8b2b9c119d84",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "OLKwVIJ7sWoEFONT",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9b7205be-1735-41ef-8883-3044dece84d6",
+              "name": "={{ $json.content.parts[0].text.split('\\n')[0] }}",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        1040
+      ],
+      "id": "21cbd2f4-3de0-47e5-b393-686c645d8bd3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "path": "ai-misconfig",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -224,
+        1312
+      ],
+      "id": "7bcafcaf-a4f0-45d9-aed0-395f75071d7c",
+      "name": "Webhook2",
+      "webhookId": "c5f04fe2-fefe-4c8b-933e-1e2284d2c336"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\AI Misconfig Info.json",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        1312
+      ],
+      "id": "0f9f8371-d61e-4325-95d6-4a5334b51b39",
+      "name": "Read/Write Files from Disk3"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Network Audit Dashboard</title>\n    <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\" rel=\"stylesheet\">\n    <style>\n        :root {\n            --bg-main: #f1f5f9;\n            --sidebar-bg: #0f172a;\n            --sidebar-hover: #1e293b;\n            --accent: #38bdf8;\n            --accent-glow: rgba(56, 189, 248, 0.4);\n            --text-dark: #0f172a;\n            --text-muted: #64748b;\n            --card-bg: #ffffff;\n            --glass: rgba(255, 255, 255, 0.03);\n        }\n\n        body {\n            font-family: 'Inter', sans-serif;\n            margin: 0;\n            display: flex;\n            height: 100vh;\n            background-color: var(--bg-main);\n            color: var(--text-dark);\n            overflow: hidden;\n        }\n\n        /* Sidebar Navigation */\n        #sidebar {\n            width: 280px;\n            background-color: var(--sidebar-bg);\n            background-image: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);\n            color: white;\n            display: flex;\n            flex-direction: column;\n            border-right: 1px solid rgba(255,255,255,0.1);\n            z-index: 10;\n        }\n\n        .sidebar-header {\n            padding: 32px 24px;\n            font-size: 1.1rem;\n            font-weight: 700;\n            text-transform: uppercase;\n            letter-spacing: 0.05em;\n            display: flex;\n            align-items: center;\n            gap: 12px;\n        }\n\n        .status-dot {\n            width: 8px;\n            height: 8px;\n            background: var(--accent);\n            border-radius: 50%;\n            position: relative;\n            box-shadow: 0 0 0 0 var(--accent-glow);\n            animation: pulse 2s infinite;\n        }\n\n        @keyframes pulse {\n            0% { transform: scale(0.95); box-shadow: 0 0 0 0 var(--accent-glow); }\n            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }\n            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }\n        }\n\n        #nav-list {\n            flex-grow: 1;\n            padding: 0 16px;\n            overflow-y: auto;\n        }\n\n        .nav-item {\n            padding: 12px 16px;\n            margin-bottom: 4px;\n            border-radius: 10px;\n            cursor: pointer;\n            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);\n            color: #94a3b8;\n            font-size: 0.9rem;\n            font-weight: 500;\n            display: flex;\n            align-items: center;\n            border: 1px solid transparent;\n        }\n\n        .nav-item:hover {\n            background-color: var(--glass);\n            color: white;\n            transform: translateX(4px);\n        }\n\n        .nav-item.active {\n            background-color: rgba(56, 189, 248, 0.1);\n            color: var(--accent);\n            border-color: rgba(56, 189, 248, 0.2);\n        }\n\n        /* Main Content */\n        #content {\n            flex-grow: 1;\n            padding: 40px;\n            overflow-y: auto;\n            display: flex;\n            justify-content: center;\n            background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f1f5f9 100%);\n        }\n\n        #detail-view {\n            width: 100%;\n            max-width: 1000px;\n        }\n\n        .device-header {\n            display: flex;\n            justify-content: space-between;\n            align-items: flex-end;\n            margin-bottom: 32px;\n            padding-bottom: 16px;\n            border-bottom: 2px solid #e2e8f0;\n        }\n\n        .device-title-group h1 {\n            margin: 0;\n            font-size: 1.875rem;\n            font-weight: 800;\n            color: #0f172a;\n            letter-spacing: -0.025em;\n        }\n\n        .badge {\n            font-size: 0.75rem;\n            font-weight: 600;\n            background: #e0f2fe;\n            color: #0369a1;\n            padding: 4px 12px;\n            border-radius: 6px;\n            text-transform: uppercase;\n        }\n\n        .report-card {\n            background: var(--card-bg);\n            padding: 40px;\n            border-radius: 20px;\n            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);\n            line-height: 1.7;\n            color: #334155;\n            white-space: pre-wrap;\n            position: relative;\n            animation: slideUp 0.4s ease-out;\n        }\n\n        @keyframes slideUp {\n            from { opacity: 0; transform: translateY(20px); }\n            to { opacity: 1; transform: translateY(0); }\n        }\n\n        /* Markdown Styling */\n        .report-card strong { color: #0f172a; font-weight: 700; display: inline-block; margin-top: 8px; }\n        .bullet { color: var(--accent); font-weight: bold; margin-right: 8px; }\n\n        /* Placeholder */\n        .placeholder {\n            text-align: center;\n            margin-top: 15vh;\n            color: var(--text-muted);\n        }\n\n        .placeholder-icon {\n            width: 80px;\n            height: 80px;\n            background: #e2e8f0;\n            border-radius: 24px;\n            display: flex;\n            align-items: center;\n            justify-content: center;\n            margin: 0 auto 24px;\n        }\n\n        .placeholder svg { width: 40px; height: 40px; color: #94a3b8; }\n\n        /* Custom Scrollbar */\n        ::-webkit-scrollbar { width: 6px; }\n        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }\n        #sidebar::-webkit-scrollbar-thumb { background: #334155; }\n    </style>\n</head>\n<body>\n\n    <div id=\"sidebar\">\n        <div class=\"sidebar-header\">\n            <div class=\"status-dot\"></div>\n            Network Audit\n        </div>\n        <div id=\"nav-list\"></div>\n    </div>\n\n    <div id=\"content\">\n        <div id=\"detail-view\">\n            <div class=\"placeholder\">\n                <div class=\"placeholder-icon\">\n                    <svg fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z\"></path></svg>\n                </div>\n                <h3>No Node Selected</h3>\n                <p>Select a network device from the sidebar to view the security audit findings.</p>\n            </div>\n        </div>\n    </div>\n\n    <script>\n        // Data Injected via n8n\n        const rawData = {{ JSON.stringify($json.data) }};\n\n        const navList = document.getElementById('nav-list');\n        const detailView = document.getElementById('detail-view');\n\n        function formatMarkdown(text) {\n            return text\n                .replace(/\\*\\*(.*?)\\*\\*/g, '<strong>$1</strong>')\n                .replace(/\\n\\* /g, '\\n<span class=\"bullet\">•</span> '); \n        }\n\n        function init() {\n            rawData.forEach((item) => {\n                const deviceName = Object.keys(item)[0];\n                const deviceData = item[deviceName];\n\n                const div = document.createElement('div');\n                div.className = 'nav-item';\n                div.innerHTML = `<span>${deviceName}</span>`;\n                \n                div.onclick = () => {\n                    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));\n                    div.classList.add('active');\n                    renderDetails(deviceName, deviceData);\n                };\n                navList.appendChild(div);\n            });\n        }\n\n        function renderDetails(name, text) {\n            detailView.innerHTML = `\n                <div class=\"device-header\">\n                    <div class=\"device-title-group\">\n                        <span class=\"badge\">Audit Report</span>\n                        <h1>${name}</h1>\n                    </div>\n                    <div style=\"color: var(--text-muted); font-size: 0.85rem; font-weight: 500;\">\n                        Last Updated: ${new Date().toLocaleDateString()}\n                    </div>\n                </div>\n                <div class=\"report-card\">${formatMarkdown(text)}</div>\n            `;\n        }\n\n        init();\n    </script>\n</body>\n</html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        1312
+      ],
+      "id": "26dc8092-2a60-4935-b89b-94e8ac4338c5",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        1312
+      ],
+      "id": "084617b0-dfdb-4ca6-acf1-620826ad0cdf",
+      "name": "Extract from File2"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "binaryPropertyName": "=data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        256,
+        1040
+      ],
+      "id": "67b4608d-53b4-43bf-ad63-bc5cde4e7e79",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "C:\\Users\\madhavin\\.n8n-files\\AI Misconfig Info.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        1040
+      ],
+      "id": "37ae6bf3-932b-4144-a71a-103d5e01ba3d",
+      "name": "Read/Write Files from Disk4"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => {\n  const requestId = item.json.request_id;\n  const rawOutput = item.json.results?.[1]?.output || \"\";\n\n  // Split the config by the '#' delimiter\n  const sections = rawOutput.split(/\\r?\\n#\\r?\\n/);\n\n  // Collect all interface sections into a single string\n  const interfaceBlocks = sections\n    .map(section => {\n      const lines = section.split(/\\r?\\n/)\n        .map(line => line.trim())\n        .filter(line => line.length > 0);\n\n      const cleanSection = lines.join('\\n');\n\n      // Only include sections that start with 'interface'\n      return cleanSection.startsWith('interface') ? cleanSection : null;\n    })\n    .filter(Boolean)  // remove nulls\n    .join('\\n\\n');    // separate interfaces with an extra newline\n\n  return {\n    json: {\n      Device: requestId,\n      Full_Interface_Config: interfaceBlocks\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        752
+      ],
+      "id": "8379c65b-842e-4770-bf61-466f091b716d",
+      "name": "Code in JavaScript2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "content": "**Provide results in an HTML page**",
+        "height": 224,
+        "width": 960
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        1264
+      ],
+      "id": "ae2ea534-da7b-420a-bbcf-0817b8821cfd",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "**Send Interface details to Gemini AI**",
+        "height": 240,
+        "width": 960,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        976
+      ],
+      "id": "a681e867-cf65-427a-b20c-ac96d220408d",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "**Fetch Interface Configuration from Devices via API2SSH**",
+        "height": 240,
+        "width": 960,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        704
+      ],
+      "id": "568026a8-1831-4131-a71e-01c6f07fd2a7",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\List-Devices.xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        752
+      ],
+      "id": "f997f1d0-604d-49fe-966a-7c67740ed7b2",
+      "name": "Read/Write Files from Disk5"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        128,
+        752
+      ],
+      "id": "4446daa2-2fbd-4633-b40b-bea22c8be0ad",
+      "name": "Extract from File3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/api/api2ssh",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"request_id\":\"{{ $json[\"Device Name\"] }}\",\n\"router_ip\": \"{{ $json['IP Address'] }}\",\n\"ssh_port\":22,\n\"username\":\"testuser\",\n\"password\":\"pass123!\",\n\"commands\": [\n{\n\"command\": \"screen-length 0 temporary\",\n\"expected_end\": \">\",\n\"command_timeout\":60\n},\n{\n\"command\": \"display current\",\n\"expected_end\": \"{{ $json[\"Device Name\"] }}>\",\n\"command_timeout\":60\n}\n]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        336,
+        752
+      ],
+      "id": "d5ae07d4-aac1-4c1b-b32a-e0005e83e376",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -272,
+        752
+      ],
+      "id": "f662d350-9474-460d-a68f-d8a80da808ed",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "content": "**AI Interface Audit**",
+        "height": 864,
+        "width": 1200,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        656
+      ],
+      "typeVersion": 1,
+      "id": "eee1d513-111d-44e1-8c21-7d02851bdcef",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "**Homepage With Search**",
+        "height": 704,
+        "width": 1648,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        -64
+      ],
+      "typeVersion": 1,
+      "id": "66bc6935-56fb-43c4-8d5d-004adfa6a3d8",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -272,
+        1600
+      ],
+      "id": "a2811058-34f2-4a44-9b17-16f06203617c",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\List-Devices.xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -48,
+        1600
+      ],
+      "id": "e3dcdc8f-a400-40fa-92c0-83267fbc9080",
+      "name": "Read/Write Files from Disk6"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        1600
+      ],
+      "id": "89359edb-1fb8-4fb5-9c5c-6ebead9cb889",
+      "name": "Extract from File4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/api/api2ssh",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"request_id\":\"{{ $json[\"Device Name\"] }}\",\n\"router_ip\": \"{{ $json['IP Address'] }}\",\n\"ssh_port\":22,\n\"username\":\"testuser\",\n\"password\":\"pass123!\",\n\"commands\": [\n{\n\"command\": \"screen-length 0 temporary\",\n\"expected_end\": \">\",\n\"command_timeout\":60\n},\n{\n\"command\": \"display interface description\",\n\"expected_end\": \">\",\n\"command_timeout\":60\n}\n]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        1600
+      ],
+      "id": "41af8e7d-6be3-4a64-acf6-2344b1a64a5b",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "path": "interfaces_status",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -272,
+        1824
+      ],
+      "id": "2d8bd550-9e7d-436d-a28c-84af3d9b02a3",
+      "name": "Webhook3",
+      "webhookId": "0dd9f735-3e95-4a89-904c-99fe578aa628"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\interface_report_simplified.json",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -48,
+        1824
+      ],
+      "id": "9273f7d4-b4bc-4736-9986-ccfb013604f0",
+      "name": "Read/Write Files from Disk7"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Interface List</title>\n\n<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n<link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css\" rel=\"stylesheet\">\n\n<style>\nbody { background: #f8f9fa; padding-top: 20px; font-family: 'Segoe UI', Tahoma, sans-serif; }\n\nthead th { background: #003d80; color: white; user-select: none; white-space: nowrap; position: relative; padding: 0 !important; }\n.header-content { padding: 12px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; }\n.header-content:hover { background: #004da1; }\n.sort-indicator { margin-left: 8px; width: 15px; opacity: 0.6; }\n.active-sort { opacity: 1; color: #ffcc00; }\n\ntbody tr:hover { background-color: #eef6ff !important; }\n.filter-input { width: 100%; font-size: 0.85rem; border-radius: 0; border: none; border-bottom: 2px solid #ddd; }\n.filter-input:focus { box-shadow: none; border-bottom-color: #007bff; }\n\n.global-search-container { max-width: 400px; }\n.help-icon { cursor: pointer; margin-left: 5px; color: #007bff; }\n\n.table-responsive { max-height: 70vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #003d80 #f1f1f1; border-radius: 8px; border: 1px solid #dee2e6; }\n\n.status-badge { padding: 2px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; display: inline-block; }\n.bg-up { background-color: #28a745; color: #fff; }\n.bg-down { background-color: #dc3545; color: #fff; }\n\n.spinner-container { display: flex; justify-content: center; align-items: center; min-height: 300px; }\n.spinner { border: 6px solid #f3f3f3; border-top: 6px solid #003d80; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }\n@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }\n</style>\n</head>\n<body>\n\n<div class=\"container-fluid px-4\">\n<div class=\"card shadow-sm\">\n<div class=\"card-body\">\n<div class=\"d-flex justify-content-between align-items-center mb-3\">\n<h4 class=\"mb-0 text-primary\"><i class=\"fas fa-network-wired me-2\"></i>Interface List</h4>\n<div class=\"d-flex align-items-center gap-2\">\n\n<div class=\"input-group\">\n<span class=\"input-group-text bg-white\"><i class=\"fas fa-search\"></i></span>\n<input id=\"globalSearch\" type=\"text\" class=\"form-control global-search-container\" placeholder=\"Search everything...\">\n</div>\n\n<i class=\"fas fa-circle-info help-icon\" \ndata-bs-toggle=\"tooltip\" \ndata-bs-html=\"true\"\ntitle='<ul class=\"text-start mb-0 ps-3\"><li>\"phrase\" → exact</li><li>word → include</li><li>-word → exclude</li></ul>'></i>\n\n<select id=\"rowsPerPage\" class=\"form-select w-auto\">\n<option value=\"10\">10 Rows</option>\n<option value=\"25\">25 Rows</option>\n<option value=\"50\">50 Rows</option>\n<option value=\"-1\">All</option>\n</select>\n\n<div class=\"dropdown\">\n<button class=\"btn btn-outline-secondary dropdown-toggle\" type=\"button\" data-bs-toggle=\"dropdown\">\nColumns\n</button>\n<ul class=\"dropdown-menu dropdown-menu-end p-2\" id=\"columnsMenu\" style=\"min-width: 200px;\"></ul>\n</div>\n</div>\n</div>\n\n<p id=\"resultsInfo\" class=\"text-muted small mb-2\"></p>\n\n<div id=\"spinnerContainer\" class=\"spinner-container\">\n<div class=\"spinner\"></div>\n</div>\n\n<div class=\"table-responsive\" id=\"tableContainer\" style=\"display: none;\">\n<table id=\"resultsTable\" class=\"table table-hover align-middle border mb-0\">\n<thead>\n<tr id=\"headerRow\"></tr>\n<tr id=\"filterRow\"></tr>\n</thead>\n<tbody id=\"bodyRows\"></tbody>\n</table>\n</div>\n\n<p id=\"noData\" class=\"text-danger fw-bold text-center d-none my-4\">No interfaces found matching your criteria.</p>\n\n<div id=\"paginationControls\" class=\"mt-3 d-flex justify-content-center\"></div>\n</div>\n</div>\n</div>\n\n<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"></script>\n<script>\n// Parse new data format: first line = Device Name, rest = interfaces\nconst rawInput = {{ JSON.stringify($input.all().map(item => item.json.data || []).flat()) }} || {{ results_data | tojson }};\n\n// Transform into rows: { Device, Interface, PHY, Protocol, Description }\nconst data = [];\nrawInput.forEach(item => {\n    if(item.Filtered){\n        const lines = item.Filtered.split('\\n').map(l => l.trim()).filter(l => l);\n        const device = lines[0];\n        let headerLineIndex = lines.findIndex(l => l.match(/^Interface\\s+PHY\\s+Protocol\\s+Description/));\n        if(headerLineIndex < 0) headerLineIndex = 0;\n        for(let i=headerLineIndex+1; i<lines.length; i++){\n            const rowLine = lines[i];\n            const match = rowLine.match(/^(\\S+)\\s+(\\S+)\\s+(\\S+)\\s*(.*)$/);\n            if(match){\n                data.push({\n                    Device: device,\n                    Interface: match[1],\n                    PHY: match[2],\n                    Protocol: match[3],\n                    Description: match[4] || ''\n                });\n            }\n        }\n    }\n});\n\nconst headerRow = document.getElementById(\"headerRow\");\nconst filterRow = document.getElementById(\"filterRow\");\nconst bodyRows = document.getElementById(\"bodyRows\");\nconst noData = document.getElementById(\"noData\");\nconst resultsInfo = document.getElementById(\"resultsInfo\");\nconst columnsMenu = document.getElementById(\"columnsMenu\");\nconst spinnerContainer = document.getElementById(\"spinnerContainer\");\nconst tableContainer = document.getElementById(\"tableContainer\");\n\nlet currentData = [...data];\nlet hiddenColumns = new Set();\nlet currentPage = 1;\nlet rowsPerPage = 10;\nlet sortKey = null;\nlet sortDir = 'none'; // 'asc', 'desc', 'none'\n\ndocument.querySelectorAll('[data-bs-toggle=\"tooltip\"]').forEach(t => new bootstrap.Tooltip(t));\n\nfunction hideSpinner() {\n    spinnerContainer.style.display = \"none\";\n    tableContainer.style.display = \"block\";\n}\n\nif(data.length > 0){\n    const headers = Object.keys(data[0]);\n\n    // Initialize Column Dropdown\n    headers.forEach((h,i)=>{\n        columnsMenu.innerHTML += `<li class=\"p-1\"><div class=\"form-check\">\n        <input class=\"form-check-input column-toggle\" type=\"checkbox\" data-col-index=\"${i}\" id=\"colToggle${i}\" checked>\n        <label class=\"form-check-label w-100\" for=\"colToggle${i}\">${h}</label></div></li>`;\n    });\n\n    function renderHeader(){\n        headerRow.innerHTML=\"\";\n        filterRow.innerHTML=\"\";\n        headers.forEach((h,i)=>{\n            if(!hiddenColumns.has(i)){\n                let sortIcon = 'fa-sort';\n                let activeClass='';\n                if(sortKey===h){ sortIcon = sortDir==='asc'?'fa-sort-up':'fa-sort-down'; activeClass='active-sort'; }\n                headerRow.innerHTML += `<th><div class=\"header-content\" onclick=\"handleSort('${h}')\">\n                    <span>${h}</span><i class=\"fas ${sortIcon} sort-indicator ${activeClass}\"></i></div></th>`;\n                filterRow.innerHTML += `<th class=\"p-0 bg-light\">\n                    <input class=\"filter-input form-control form-control-sm\" data-column=\"${h}\" placeholder=\"Filter ${h}...\" oninput=\"applyFilters()\">\n                </th>`;\n            }\n        });\n    }\n\n    window.handleSort = (key)=>{\n        if(sortKey===key){ sortDir = sortDir==='asc'?'desc':'asc'; } else { sortKey=key; sortDir='asc'; }\n        currentData.sort((a,b)=>{\n            let valA=a[key]??'', valB=b[key]??'';\n            if(!isNaN(valA) && !isNaN(valB) && valA!=='' && valB!=='') return sortDir==='asc'?valA-valB:valB-valA;\n            valA=valA.toString().toLowerCase(); valB=valB.toString().toLowerCase();\n            return sortDir==='asc'?valA.localeCompare(valB):valB.localeCompare(valA);\n        });\n        renderHeader(); renderTablePage(1);\n    };\n\n    function renderTablePage(page=1){\n        currentPage=page; bodyRows.innerHTML='';\n        const limit=rowsPerPage===-1?currentData.length:rowsPerPage;\n        const start=(page-1)*limit; const end=Math.min(start+limit,currentData.length);\n        const pageData=currentData.slice(start,end);\n\n        pageData.forEach(row=>{\n            const tr=document.createElement(\"tr\");\n            headers.forEach((h,i)=>{\n                if(!hiddenColumns.has(i)){\n                    const td=document.createElement(\"td\");\n                    let val=row[h]??'-';\n                    if(['PHY','Protocol','Status','State'].includes(h)){\n                        const lowVal=val.toString().toLowerCase();\n                        const statusClass=(lowVal==='up'||lowVal==='active'||lowVal==='connected')?'bg-up':'bg-down';\n                        td.innerHTML=`<span class=\"status-badge ${statusClass}\">${val}</span>`;\n                    }else td.textContent=val;\n                    tr.appendChild(td);\n                }\n            });\n            bodyRows.appendChild(tr);\n        });\n\n        resultsInfo.textContent=currentData.length>0?`Showing ${start+1} to ${end} of ${currentData.length} entries`:'';\n        renderPagination();\n    }\n\n    function renderPagination(){\n        const totalPages = rowsPerPage===-1?1:Math.ceil(currentData.length/rowsPerPage);\n        const container=document.getElementById(\"paginationControls\");\n        if(totalPages<=1){ container.innerHTML=''; return; }\n        let html=`<nav><ul class=\"pagination pagination-sm\">`;\n        for(let i=1;i<=totalPages;i++){\n            if(totalPages>8 && i>2 && i<totalPages-1 && Math.abs(i-currentPage)>1){\n                if(i===3||i===totalPages-2) html+=`<li class=\"page-item disabled\"><span class=\"page-link\">...</span></li>`;\n                continue;\n            }\n            html+=`<li class=\"page-item ${i===currentPage?'active':''}\"><a class=\"page-link\" href=\"#\" onclick=\"event.preventDefault(); renderTablePage(${i})\">${i}</a></li>`;\n        }\n        html+=`</ul></nav>`;\n        container.innerHTML=html;\n    }\n\n    window.applyFilters=()=>{\n        const globalStr=document.getElementById(\"globalSearch\").value.toLowerCase();\n        const filters=Array.from(document.querySelectorAll(\".filter-input\")).map(i=>({col:i.dataset.column,val:i.value.toLowerCase()}));\n        currentData=data.filter(row=>{\n            const matchGlobal=Object.values(row).some(v=>(v??'').toString().toLowerCase().includes(globalStr));\n            const matchCols=filters.every(f=>(row[f.col]??'').toString().toLowerCase().includes(f.val));\n            return matchGlobal && matchCols;\n        });\n        noData.classList.toggle(\"d-none\", currentData.length>0);\n        renderTablePage(1);\n    };\n\n    document.getElementById(\"globalSearch\").oninput=applyFilters;\n    document.getElementById(\"rowsPerPage\").onchange=(e)=>{ rowsPerPage=parseInt(e.target.value); renderTablePage(1); };\n    document.querySelectorAll(\".column-toggle\").forEach(cb=>{ cb.onchange=(e)=>{ const idx=parseInt(e.target.dataset.colIndex); e.target.checked?hiddenColumns.delete(idx):hiddenColumns.add(idx); renderHeader(); renderTablePage(currentPage); }});\n\n    renderHeader(); renderTablePage(1);\n} else noData.classList.remove(\"d-none\");\n\nhideSpinner();\n</script>\n\n</body>\n</html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        400,
+        1824
+      ],
+      "id": "7de1b588-87ab-41c3-94a9-220717f57b72",
+      "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        1824
+      ],
+      "id": "7618a8ad-f69c-4e8f-b1b8-b93de502a646",
+      "name": "Extract from File5"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        1600
+      ],
+      "id": "d5c3ec31-2e12-4369-9718-039eab14b6cc",
+      "name": "Convert to File2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6eff727d-41cd-4109-961a-46b1fa56b565",
+              "name": "Filtered",
+              "value": "={{ $json.request_id }}\n{{ $json.results[1].output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        1600
+      ],
+      "id": "2e9b0f85-d741-4778-a315-6c915aff6d88",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "C:\\Users\\madhavin\\.n8n-files\\interface_report_simplified.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        992,
+        1600
+      ],
+      "id": "3e987851-c310-425d-a0ce-9aaafbe56d68",
+      "name": "Read/Write Files from Disk8"
+    },
+    {
+      "parameters": {
+        "content": "**Interface Status**",
+        "height": 464,
+        "width": 1520,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        1536
+      ],
+      "typeVersion": 1,
+      "id": "86d66a7e-8bc9-45f2-99e3-7e2afba545fe",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -272,
+        2064
+      ],
+      "id": "f5347637-56d1-4e60-9e23-c44fc38d4727",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\List-Devices.xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -48,
+        2064
+      ],
+      "id": "ee520a21-24f0-4a3b-8bad-6ccec5c852b1",
+      "name": "Read/Write Files from Disk9"
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        2064
+      ],
+      "id": "0d539a4a-dc4f-4902-b031-26e36cb93a0f",
+      "name": "Extract from File6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:5001/api/api2ssh",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n\"request_id\":\"{{ $json[\"Device Name\"] }}\",\n\"router_ip\": \"{{ $json['IP Address'] }}\",\n\"ssh_port\":22,\n\"username\":\"testuser\",\n\"password\":\"pass123!\",\n\"commands\": [\n{\n\"command\": \"screen-length 0 temporary\",\n\"expected_end\": \">\",\n\"command_timeout\":60\n},\n{\n\"command\": \"display current\",\n\"expected_end\": \"{{ $json[\"Device Name\"] }}>\",\n\"command_timeout\":60\n}\n]\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        400,
+        2064
+      ],
+      "id": "ebe53be1-9428-4010-b071-d86194c9dfe3",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "path": "interface-config",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -272,
+        2288
+      ],
+      "id": "2c64a48a-f06b-4726-8af6-47fe7feb7d94",
+      "name": "Webhook4",
+      "webhookId": "3725f9c9-fbe1-4222-a787-1a18227ddcdf"
+    },
+    {
+      "parameters": {
+        "fileSelector": "C:\\Users\\madhavin\\.n8n-files\\interface_config.json",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        -48,
+        2288
+      ],
+      "id": "e8d68621-2b97-4d3c-a864-10466a2be804",
+      "name": "Read/Write Files from Disk10"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Interface Live Status</title>\n\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n    <link href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css\" rel=\"stylesheet\">\n\n    <style>\n        body { background: #f8f9fa; padding-top: 20px; font-family: 'Segoe UI', Tahoma, sans-serif; }\n        \n        /* Header Styling */\n        thead th { \n            background: #003d80; \n            color: white; \n            user-select: none; \n            white-space: nowrap; \n            position: relative;\n            padding: 0 !important; /* Managed by inner div for click area */\n        }\n        \n        .header-content {\n            padding: 12px;\n            display: flex;\n            align-items: center;\n            justify-content: space-between;\n            cursor: pointer;\n            transition: background 0.2s;\n        }\n\n        .header-content:hover {\n            background: #004da1;\n        }\n\n        .sort-indicator {\n            margin-left: 8px;\n            width: 15px;\n            opacity: 0.6;\n        }\n\n        .active-sort { opacity: 1; color: #ffcc00; }\n\n        tbody tr:hover { background-color: #eef6ff !important; }\n        .filter-input { width: 100%; font-size: 0.85rem; border-radius: 0; border: none; border-bottom: 2px solid #ddd; }\n        .filter-input:focus { box-shadow: none; border-bottom-color: #007bff; }\n        \n        .global-search-container { max-width: 400px; }\n        .help-icon { cursor: pointer; margin-left: 5px; color: #007bff; }\n\n        .table-responsive {\n            max-height: 70vh;\n            overflow-y: auto;\n            scrollbar-width: thin;\n            scrollbar-color: #003d80 #f1f1f1;\n            border-radius: 8px;\n            border: 1px solid #dee2e6;\n        }\n\n        .status-badge {\n            padding: 2px 10px;\n            border-radius: 6px;\n            font-size: 0.75rem;\n            font-weight: bold;\n            text-transform: uppercase;\n            display: inline-block;\n        }\n        .bg-up { background-color: #28a745; color: #fff; }\n        .bg-down { background-color: #dc3545; color: #fff; }\n\n        .spinner-container {\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            min-height: 300px;\n        }\n\n        .spinner {\n            border: 6px solid #f3f3f3;\n            border-top: 6px solid #003d80;\n            border-radius: 50%;\n            width: 50px; height: 50px;\n            animation: spin 1s linear infinite;\n        }\n\n        @keyframes spin {\n            0% { transform: rotate(0deg); }\n            100% { transform: rotate(360deg); }\n        }\n    </style>\n</head>\n<body>\n\n<div class=\"container-fluid px-4\">\n    <div class=\"card shadow-sm\">\n        <div class=\"card-body\">\n            <div class=\"d-flex justify-content-between align-items-center mb-3\">\n                <h4 class=\"mb-0 text-primary\"><i class=\"fas fa-network-wired me-2\"></i>IPAM</h4>\n                <div class=\"d-flex align-items-center gap-2\">\n                    \n                    <div class=\"input-group\">\n                        <span class=\"input-group-text bg-white\"><i class=\"fas fa-search\"></i></span>\n                        <input id=\"globalSearch\" type=\"text\" class=\"form-control global-search-container\" placeholder=\"Search everything...\">\n                    </div>\n\n                    <i class=\"fas fa-circle-info help-icon\" \n                       data-bs-toggle=\"tooltip\" \n                       data-bs-html=\"true\"\n                       title='<ul class=\"text-start mb-0 ps-3\"><li>\"phrase\" → exact</li><li>word → include</li><li>-word → exclude</li></ul>'></i>\n\n                    <select id=\"rowsPerPage\" class=\"form-select w-auto\">\n                        <option value=\"10\">10 Rows</option>\n                        <option value=\"25\">25 Rows</option>\n                        <option value=\"50\">50 Rows</option>\n                        <option value=\"-1\">All</option>\n                    </select>\n\n                    <div class=\"dropdown\">\n                        <button class=\"btn btn-outline-secondary dropdown-toggle\" type=\"button\" data-bs-toggle=\"dropdown\">\n                            Columns\n                        </button>\n                        <ul class=\"dropdown-menu dropdown-menu-end p-2\" id=\"columnsMenu\" style=\"min-width: 200px;\"></ul>\n                    </div>\n                </div>\n            </div>\n\n            <p id=\"resultsInfo\" class=\"text-muted small mb-2\"></p>\n\n            <div id=\"spinnerContainer\" class=\"spinner-container\">\n                <div class=\"spinner\"></div>\n            </div>\n\n            <div class=\"table-responsive\" id=\"tableContainer\" style=\"display: none;\">\n                <table id=\"resultsTable\" class=\"table table-hover align-middle border mb-0\">\n                    <thead>\n                        <tr id=\"headerRow\"></tr>\n                        <tr id=\"filterRow\"></tr>\n                    </thead>\n                    <tbody id=\"bodyRows\"></tbody>\n                </table>\n            </div>\n            \n            <p id=\"noData\" class=\"text-danger fw-bold text-center d-none my-4\">No interfaces found matching your criteria.</p>\n            \n            <div id=\"paginationControls\" class=\"mt-3 d-flex justify-content-center\"></div>\n        </div>\n    </div>\n</div>\n\n<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\"></script>\n\n<script>\n// DATA ADAPTATION\nconst rawInput = {{ JSON.stringify($input.all().map(item => item.json.data || []).flat()) }} || {{ results_data | tojson }};\nconst data = Array.isArray(rawInput) ? rawInput : [];\n\nconst headerRow = document.getElementById(\"headerRow\");\nconst filterRow = document.getElementById(\"filterRow\");\nconst bodyRows = document.getElementById(\"bodyRows\");\nconst noData = document.getElementById(\"noData\");\nconst resultsInfo = document.getElementById(\"resultsInfo\");\nconst columnsMenu = document.getElementById(\"columnsMenu\");\nconst spinnerContainer = document.getElementById(\"spinnerContainer\");\nconst tableContainer = document.getElementById(\"tableContainer\");\n\nlet currentData = [...data];\nlet hiddenColumns = new Set();\nlet currentPage = 1;\nlet rowsPerPage = 10;\nlet sortKey = null;\nlet sortDir = 'none'; // 'asc', 'desc', 'none'\n\n// Tooltip init\ndocument.querySelectorAll('[data-bs-toggle=\"tooltip\"]').forEach(t => new bootstrap.Tooltip(t));\n\nfunction hideSpinner() {\n    spinnerContainer.style.display = \"none\";\n    tableContainer.style.display = \"block\";\n}\n\nif(data.length > 0) {\n    const headers = Object.keys(data[0]);\n    \n    // Initialize Column Dropdown\n    headers.forEach((h, index) => {\n        columnsMenu.innerHTML += `\n            <li class=\"p-1\">\n                <div class=\"form-check\">\n                    <input class=\"form-check-input column-toggle\" type=\"checkbox\" data-col-index=\"${index}\" id=\"colToggle${index}\" checked>\n                    <label class=\"form-check-label w-100\" for=\"colToggle${index}\">${h}</label>\n                </div>\n            </li>`;\n    });\n\n    function renderHeader() {\n        headerRow.innerHTML = \"\";\n        filterRow.innerHTML = \"\";\n        headers.forEach((h, i) => {\n            if(!hiddenColumns.has(i)) {\n                // Sorting UI\n                let sortIcon = 'fa-sort';\n                let activeClass = '';\n                if(sortKey === h) {\n                    sortIcon = sortDir === 'asc' ? 'fa-sort-up' : 'fa-sort-down';\n                    activeClass = 'active-sort';\n                }\n\n                headerRow.innerHTML += `\n                    <th>\n                        <div class=\"header-content\" onclick=\"handleSort('${h}')\">\n                            <span>${h}</span>\n                            <i class=\"fas ${sortIcon} sort-indicator ${activeClass}\"></i>\n                        </div>\n                    </th>`;\n                \n                filterRow.innerHTML += `\n                    <th class=\"p-0 bg-light\">\n                        <input class=\"filter-input form-control form-control-sm\" \n                               data-column=\"${h}\" \n                               placeholder=\"Filter ${h}...\" \n                               oninput=\"applyFilters()\">\n                    </th>`;\n            }\n        });\n    }\n\n    window.handleSort = (key) => {\n        if (sortKey === key) {\n            sortDir = sortDir === 'asc' ? 'desc' : 'asc';\n        } else {\n            sortKey = key;\n            sortDir = 'asc';\n        }\n\n        currentData.sort((a, b) => {\n            let valA = a[key] ?? \"\";\n            let valB = b[key] ?? \"\";\n            \n            // Handle numeric vs string\n            if (!isNaN(valA) && !isNaN(valB) && valA !== \"\" && valB !== \"\") {\n                return sortDir === 'asc' ? valA - valB : valB - valA;\n            }\n            \n            valA = valA.toString().toLowerCase();\n            valB = valB.toString().toLowerCase();\n            return sortDir === 'asc' ? valA.localeCompare(valB) : valB.localeCompare(valA);\n        });\n\n        renderHeader();\n        renderTablePage(1);\n    };\n\n    function renderTablePage(page = 1) {\n        currentPage = page;\n        bodyRows.innerHTML = \"\";\n        const limit = rowsPerPage === -1 ? currentData.length : rowsPerPage;\n        const start = (page - 1) * limit;\n        const end = Math.min(start + limit, currentData.length);\n        const pageData = currentData.slice(start, end);\n\n        pageData.forEach(row => {\n            const tr = document.createElement(\"tr\");\n            headers.forEach((h, i) => {\n                if(!hiddenColumns.has(i)) {\n                    const td = document.createElement(\"td\");\n                    let val = row[h] ?? \"-\";\n                    \n                    if (['PHY', 'Protocol', 'Status', 'State'].includes(h)) {\n                        const lowVal = val.toString().toLowerCase();\n                        const statusClass = (lowVal === 'up' || lowVal === 'active' || lowVal === 'connected') ? 'bg-up' : 'bg-down';\n                        td.innerHTML = `<span class=\"status-badge ${statusClass}\">${val}</span>`;\n                    } else {\n                        td.textContent = val;\n                    }\n                    tr.appendChild(td);\n                }\n            });\n            bodyRows.appendChild(tr);\n        });\n\n        resultsInfo.textContent = currentData.length > 0 \n            ? `Showing ${start + 1} to ${end} of ${currentData.length} entries` : \"\";\n        renderPagination();\n    }\n\n    function renderPagination() {\n        const totalPages = rowsPerPage === -1 ? 1 : Math.ceil(currentData.length / rowsPerPage);\n        const container = document.getElementById(\"paginationControls\");\n        if (totalPages <= 1) { container.innerHTML = \"\"; return; }\n\n        let html = `<nav><ul class=\"pagination pagination-sm\">`;\n        for(let i=1; i<=totalPages; i++) {\n            if(totalPages > 8 && i > 2 && i < totalPages - 1 && Math.abs(i - currentPage) > 1) {\n                if(i === 3 || i === totalPages - 2) html += `<li class=\"page-item disabled\"><span class=\"page-link\">...</span></li>`;\n                continue;\n            }\n            html += `<li class=\"page-item ${i === currentPage ? \"active\" : \"\"}\"><a class=\"page-link\" href=\"#\" onclick=\"event.preventDefault(); renderTablePage(${i})\">${i}</a></li>`;\n        }\n        html += `</ul></nav>`;\n        container.innerHTML = html;\n    }\n\n    window.applyFilters = () => {\n        const globalStr = document.getElementById(\"globalSearch\").value.toLowerCase();\n        const filters = Array.from(document.querySelectorAll(\".filter-input\")).map(i => ({\n            col: i.dataset.column,\n            val: i.value.toLowerCase()\n        }));\n\n        currentData = data.filter(row => {\n            const matchGlobal = Object.values(row).some(v => (v??\"\").toString().toLowerCase().includes(globalStr));\n            const matchCols = filters.every(f => (row[f.col]??\"\").toString().toLowerCase().includes(f.val));\n            return matchGlobal && matchCols;\n        });\n\n        noData.classList.toggle(\"d-none\", currentData.length > 0);\n        renderTablePage(1);\n    };\n\n    document.getElementById(\"globalSearch\").oninput = applyFilters;\n    document.getElementById(\"rowsPerPage\").onchange = (e) => {\n        rowsPerPage = parseInt(e.target.value);\n        renderTablePage(1);\n    };\n\n    document.querySelectorAll(\".column-toggle\").forEach(cb => {\n        cb.onchange = (e) => {\n            const idx = parseInt(e.target.dataset.colIndex);\n            e.target.checked ? hiddenColumns.delete(idx) : hiddenColumns.add(idx);\n            renderHeader();\n            renderTablePage(currentPage);\n        };\n    });\n\n    renderHeader();\n    renderTablePage(1);\n} else {\n    noData.classList.remove(\"d-none\");\n}\n\nhideSpinner();\n</script>\n\n</body>\n</html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        400,
+        2288
+      ],
+      "id": "980ae2ac-ef96-4c64-bcc5-27165ee8e6bd",
+      "name": "Respond to Webhook4"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        2288
+      ],
+      "id": "602d3b8e-2985-4018-9300-f2948f995838",
+      "name": "Extract from File7"
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().flatMap(item => {\n  const requestId = item.json.request_id;\n  const rawOutput = item.json.results?.[1]?.output || \"\";\n\n  // 1. Split the config by the '#' delimiter\n  const sections = rawOutput.split(/\\r?\\n#\\r?\\n/);\n\n  const matches = [];\n\n  sections.forEach(section => {\n    // 2. Clean up: remove indents and trim\n    const lines = section.split(/\\r?\\n/)\n      .map(line => line.trim())\n      .filter(line => line.length > 0);\n\n    const cleanSection = lines.join('\\n');\n\n    // 3. Filter for interface blocks\n    if (cleanSection.startsWith('interface')) {\n      const interfaceName = lines[0].replace('interface ', '').trim();\n\n      // Helper function to extract value after a specific keyword\n      const extractValue = (keyword) => {\n        const line = lines.find(l => l.startsWith(keyword));\n        return line ? line.replace(keyword, '').trim() : \"\";\n      };\n\n      matches.push({\n        json: {\n          Device: requestId,\n          Interface: interfaceName,\n          VLAN_Type: extractValue('vlan-type'),\n          Description: extractValue('description'),\n          VPN_Instance: extractValue('ip binding vpn-instance'),\n          IP_Address: extractValue('ip address')\n          //, full_config: cleanSection\n        }\n      });\n    }\n  });\n\n  return matches;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        624,
+        2064
+      ],
+      "id": "f227e4f1-8fd9-448e-bef0-565390fbeffa",
+      "name": "Code in JavaScript3",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "C:\\Users\\madhavin\\.n8n-files\\interface_config.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        2064
+      ],
+      "id": "776f4622-dd32-4b96-b34e-d1997d792c32",
+      "name": "Read/Write Files from Disk11"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        2064
+      ],
+      "id": "c46c6f5f-1cec-476b-9c81-0c7bb6961e67",
+      "name": "Convert to File3"
+    },
+    {
+      "parameters": {
+        "content": "**IPAM Table**",
+        "height": 464,
+        "width": 1616,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -336,
+        2032
+      ],
+      "typeVersion": 1,
+      "id": "40586edf-1e21-45f6-a26c-9a4356fae01e",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk1": {
+      "main": [
+        []
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk3": {
+      "main": [
+        [
+          {
+            "node": "Extract from File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk5": {
+      "main": [
+        [
+          {
+            "node": "Extract from File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk6": {
+      "main": [
+        [
+          {
+            "node": "Extract from File4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk7": {
+      "main": [
+        [
+          {
+            "node": "Extract from File5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File5": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File2": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk9": {
+      "main": [
+        [
+          {
+            "node": "Extract from File6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook4": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk10": {
+      "main": [
+        [
+          {
+            "node": "Extract from File7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File7": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Convert to File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File3": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "6c6a71ee-1b7f-49c6-a370-e540ff40443e",
+  "meta": {
+    "instanceId": "282087d056d1734de3d6d3d6dd21d48f96cb31f30d8c7f16d4b78208cd7400e2"
+  },
+  "id": "1MGRKD8D9350RNVn",
+  "tags": []
+}
