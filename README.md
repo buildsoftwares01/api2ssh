@@ -56,13 +56,19 @@ All the below workflows are available in the enterprise package.
 
 ### 1. AI-based Interface Configuration Audit:
 
+Let AI automatically check all your interface configurations and alert you in case of anomalies.
+
 ![Bundle- Ai-based Network Audit](https://github.com/user-attachments/assets/bb47f0be-5aad-4601-ae7d-f9a00ed75420)
 
 ### 2. Daily Automatic Device Backup:
 
+Schedule a daily automatic backup of all routers and switches.
+
 <img width="1497" height="747" alt="Automatic Backup" src="https://github.com/user-attachments/assets/fea9a885-e917-449a-9add-d01d88661e1f" />
 
 ### 3. IP Address Management (IPAM):
+
+Obtain better visibility on your complete network.
 
 <img width="903" height="450" alt="Bundle- NetSearch Homepage" src="https://github.com/user-attachments/assets/56199d96-8c39-45c4-870b-8a4c7912742e" />
 
