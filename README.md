@@ -53,7 +53,16 @@ For custom workflows, please contact the **[developers](mailto:buildsoftwares01@
 
 ## 🔌 Projects Powered by API2SSH
 
-All the below workflows are available in the Pro package.
+All the below workflows are shared in the Workflow directory under this repo itself.
+The workflows are configured for a specific device model that has been tested.
+
+To use it with other models, you’ll need to:
+
+-Update the Webhook nodes that call API2SSH to adjust the commands for your device model.
+
+-Modify the JavaScript Code nodes to adapt the response parsing logic to match your device’s output format.
+
+Command syntax and output structure vary between vendors and models, so some customization will be required.
 
 ### 1. AI-based Interface Configuration Audit:
 
