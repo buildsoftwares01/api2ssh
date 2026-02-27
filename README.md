@@ -58,9 +58,9 @@ The workflows are configured for a specific device model that has been tested.
 
 To use it with other models, you’ll need to:
 
--Update the Webhook nodes that call API2SSH to adjust the commands for your device model.
+- Update the Webhook nodes that call API2SSH to adjust the commands for your device model.
 
--Modify the JavaScript Code nodes to adapt the response parsing logic to match your device’s output format.
+- Modify the JavaScript Code nodes to adapt the response parsing logic to match your device’s output format.
 
 Command syntax and output structure vary between vendors and models, so some customization will be required.
 
