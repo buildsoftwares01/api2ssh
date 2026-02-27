@@ -53,7 +53,7 @@ For custom workflows, please contact the **[developers](mailto:buildsoftwares01@
 
 ## 🔌 Projects Powered by API2SSH
 
-All the below workflows are shared in the Workflow directory under this repo itself.
+The workflows for all the below projects are shared in the Workflow directory under this repo itself.
 The workflows are configured for a specific device model that has been tested.
 
 To use it with other models, you’ll need to:
