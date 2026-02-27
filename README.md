@@ -25,7 +25,7 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 
 ## 🚀 Choose Your Edition
 
-| Feature | Community | Enterprise |
+| Feature | Community | Pro |
 |----------|------------|-------------|
 | Device Limit | 3 devices | Unlimited |
 | Intended Use | Testing & small networks | Production-scale networks |
@@ -37,7 +37,7 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 ### ⚡ Community
 Ideal for evaluation, labs, and small production setups.
 
-### 💼 Enterprise
+### 💼 Pro
 Built for large-scale automation and operational environments.  
 For pricing and access, [Contact Sales](mailto:buildsoftwares01@gmail.com).
 
