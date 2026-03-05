@@ -1,21 +1,6 @@
 # 🚀 API2SSH
 
-## 📑 Quick Links
-
-- [Features](#-features)
-- [Projects Powered by API2SSH](#-projects-powered-by-api2ssh)
-- [Quick Start](#-quick-start)
-- [Architecture](#-architecture)
-- [API Endpoint](#-api-endpoint)
-- [API Request](#api-request)
-- [Request Parameters](#request-parameters)
-- [Command Object](#command-object)
-- [API Response](#api-response)
-- [Security](#-security)
-
----
-
-Automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, configuration audits and more** — effortlessly.  
+No-code Network Automation starts here! API2SSH is the first building block in your network automation workflow. API2SSH easily connected to your favorite no-code automation platforms such as **n8n** to automate SSH command execution across your network devices and servers — for **health checks, backups, provisioning, configuration audits and more** — effortlessly.  
 
 Want to build **network operation workflows** on platforms like **n8n** using triggers from **Zabbix, Grafana, Nagios, Cacti, or PRTG** — but need interactive SSH support? **API2SSH** is your bridge.
 
@@ -36,11 +21,9 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 Ideal for evaluation, labs, and small production setups.
 
 ### 💼 Pro
-Purchase on [KoFi](https://ko-fi.com/s/1eb20d3533) (Preferred).
+Purchase on [KoFi](https://ko-fi.com/s/1eb20d3533) (Preferred) or Purchase on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
 
-Purchase on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
-
-For custom workflows and consultancy, please contact the **[developers](mailto:buildsoftwares01@gmail.com)**.
+For queries or custom workflows, contact the **[developers](mailto:buildsoftwares01@gmail.com)**.
 
 ## ✨ Features
 - ✅ **Direct SSH channel control** (no Netmiko dependency) for finer-grained session handling and custom logic
