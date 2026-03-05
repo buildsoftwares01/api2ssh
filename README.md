@@ -36,17 +36,6 @@ For queries or custom workflows, contact the **[developers](mailto:buildsoftware
 
 ## 🔌 Projects Powered by API2SSH
 
-The workflows for all the below projects are shared in the Workflow directory under this repo itself.
-The workflows are configured for a specific device model that has been tested.
-
-To use it with other models, you’ll need to:
-
-- Update the Webhook nodes that call API2SSH to adjust the commands for your device model.
-
-- Modify the JavaScript Code nodes to adapt the response parsing logic to match your device’s output format.
-
-Command syntax and output structure vary between vendors and models, so some customization will be required.
-
 ### 1. AI-based Interface Configuration Audit:
 
 Let AI automatically check all your interface configurations and alert you in case of anomalies.
@@ -77,6 +66,19 @@ View all Interfaces' state:
 
 <img width="1868" height="861" alt="Bundle- Interface Status" src="https://github.com/user-attachments/assets/c010f713-7aba-4ac8-8a3c-89e885538b9b" />
 
+
+## Disclaimer
+
+The workflows for all the projects listed below are available in the **`Workflow`** directory within this repository.
+
+These workflows are currently configured for a **specific device model** that has been tested.
+
+If you intend to use them with **other device models**, you will need to make the following adjustments:
+
+- **Update the Webhook nodes** that call **API2SSH** to modify the commands according to your device model.
+- **Modify the JavaScript Code nodes** to adapt the response parsing logic so it matches your device’s output format.
+
+> ⚠️ **Note:** Command syntax and output structures vary between vendors and device models, so some customization will be required.
 
 ---
 
