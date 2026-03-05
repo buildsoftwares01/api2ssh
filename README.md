@@ -17,10 +17,10 @@ Want to build **network operation workflows** on platforms like **n8n** using tr
 | Interactive SSH | ✅ | ✅ |
 | Workflow Automation | ✅ | ✅ |
 
-### ⚡ Community
+### ⚡ Community Edition (Free)
 Ideal for evaluation, labs, and small production setups.
 
-### 💼 Pro
+### 💼 Pro Edition
 Purchase on [KoFi](https://ko-fi.com/s/1eb20d3533) (Preferred) or Purchase on [Gumroad](https://buildsoftwares01.gumroad.com/l/api2ssh).
 
 For queries or custom workflows, contact the **[developers](mailto:buildsoftwares01@gmail.com)**.
