@@ -100,19 +100,6 @@ If you intend to use them with **other device models**, you will need to make th
 
 ---
 
-## 🏗️ Architecture
-
-<img width="604" height="359" alt="Screenshot 2026-02-17 at 20 58 44" src="https://github.com/user-attachments/assets/7dfcd6d2-db8d-4626-8457-d22f929ceca8" />
-
-
-**Flow:**
-1. Client sends HTTP POST with commands and router IP
-2. Opens interactive SSH session to router
-3. Executes commands sequentially with prompt detection
-4. Returns structured JSON with outputs
-
----
-
 ## 📡 API Endpoint
 
 ```
