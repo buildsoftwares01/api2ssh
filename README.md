@@ -54,7 +54,7 @@ Obtain better visibility on your complete network.
 
 <img width="903" height="450" alt="Bundle- NetSearch Homepage" src="https://github.com/user-attachments/assets/56199d96-8c39-45c4-870b-8a4c7912742e" />
 
-Search any resource:
+Search any resource (e.g search for IP addresses):
 
 <img width="1402" height="991" alt="Bundle- NetSearch IPaddress Results" src="https://github.com/user-attachments/assets/bddb6a39-93fe-47c4-addf-8d1b6a633d35" />
 
